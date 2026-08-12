@@ -34,7 +34,6 @@
   --ivory-soft:  rgba(247, 243, 236, 0.82);
   --ivory-faint: rgba(247, 243, 236, 0.42);
   --plum-deepest:#2B0025;  /* tom intermediário para separar as seções */
-  --plum-card:   #280521;  /* cards de fase sobre o vinho ameixa */
 
   /* --- Tipografia --- */
   --font-title: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -435,9 +434,11 @@ button:focus-visible {
   color: var(--gold);
 }
 
-/* "referência." — sans-serif encorpada, para contrastar com a serifada
-   do título e fechar a frase com presença moderna. */
-.highlight-word {
+/* Palavra em destaque dentro de um título serifado: sans-serif encorpada
+   em dourado. Usada na Hero ("referência."), na Seção 02 ("situações?")
+   e na Seção 03 ("Transformação"). */
+.highlight-word,
+.gold-bold {
   font-family: var(--font-body);
   /* A Montserrat tem altura-x maior que a Playfair (38px contra 36px no
      mesmo corpo); 0.92em iguala as duas opticamente. */
@@ -759,145 +760,268 @@ body.is-ready .reveal {
 
 
 /* ==========================================================================
-   12. SEÇÃO 03 — O MÉTODO FLORESER (as 4 fases)
+   12. SEÇÃO 03 — O MÉTODO FLORESER (as 4 fases, vitrine editorial)
    ========================================================================== */
 .method {
-  padding: 6rem 2rem;
+  padding: 7rem 2rem;
   background-color: var(--plum-mid);
   color: var(--off-white);
 }
 
 .method__inner {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Variante do subtítulo com a medida pedida para esta seção */
-.section-head__lead--wide { max-width: 680px; }
+/* Variantes do cabeçalho para a escala maior desta seção */
+.section-head--lg { max-width: 850px; }
+.section-head__title--lg { font-size: clamp(2rem, 4vw, 3rem); }
+.section-head__lead--xwide { max-width: 750px; }
 
-/* --- Grid das fases: 2 x 2 no desktop --- */
-.phase-grid {
+/* --- Grid das 4 fases: 2 x 2 com cards altos --- */
+.phases {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: none;
 }
 
-.phase-card {
-  position: relative;
-  padding: 2.5rem 2rem;
-  /* Espaço à direita reservado para o número, que fica no canto superior */
-  padding-right: clamp(4.5rem, 7vw, 6rem);
-  background-color: var(--plum-card);
-  border: 1px solid rgba(210, 179, 106, 0.25);
-  border-radius: 16px;
-  overflow: hidden;
+.phase {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2.5rem;
+  background-color: var(--plum-dark);
+  border: 1.5px solid rgba(210, 179, 106, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
 }
-
-/* Brilho suave que acende no hover, atrás do conteúdo */
-.phase-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(80% 60% at 85% 0%, rgba(210, 179, 106, 0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity var(--t-fast);
-  pointer-events: none;
-}
-
-.phase-card:hover {
+.phase:hover {
   transform: translateY(-5px);
   border-color: var(--gold);
-  box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.6),
-              0 0 24px rgba(210, 179, 106, 0.2);
+  box-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.6),
+              0 0 28px rgba(210, 179, 106, 0.2);
 }
-.phase-card:hover::before { opacity: 1; }
 
-/* Número grande da etapa, ancorado no topo direito do card */
-.phase-card__number {
-  position: absolute;
-  top: 1.6rem;
-  right: 1.8rem;
-  font-family: var(--font-title);
-  font-size: clamp(2.5rem, 3.4vw, 3rem);
-  font-weight: 500;
+/* --- Cabeçalho do card --- */
+.phase__head {
+  padding-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
+  border-bottom: 1px solid rgba(210, 179, 106, 0.2);
+}
+
+.phase__icon {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 2.1rem;
   line-height: 1;
-  color: var(--gold);
-  opacity: 0.8;
-  pointer-events: none;
+  /* Pilha própria: os emojis não existem nas fontes do projeto */
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 }
 
-/* Mini-badge da fase */
-.phase-card__tag {
-  position: relative;
-  font-size: 0.75rem;
+.phase__name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  font-family: var(--font-title);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--off-white);
+}
+
+.phase__num {
+  font-size: clamp(2.2rem, 3vw, 2.7rem);
   font-weight: 600;
-  letter-spacing: 1.5px;
-  line-height: 1.5;
+  color: var(--gold);
+}
+.phase__sep {
+  font-size: 1.5rem;
+  color: rgba(210, 179, 106, 0.6);
+}
+.phase__word {
+  font-size: clamp(1.5rem, 2.1vw, 1.9rem);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* --- Conceito central --- */
+.phase__concept {
+  margin-bottom: 1.6rem;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ivory-soft);
+}
+
+/* --- Blocos "Na prática" e "A transformação" --- */
+.phase__block {
+  padding-left: 1.1rem;
+  border-left: 2px solid rgba(210, 179, 106, 0.4);
+  margin-bottom: 1.6rem;
+}
+.phase__block--transform {
+  margin-bottom: 0;
+  margin-top: auto;                /* ancora no rodapé do card */
+  padding-top: 0.1rem;
+}
+
+.phase__label {
+  margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
 }
 
-.phase-card__title {
-  position: relative;
-  margin-top: 0.5rem;
-  font-family: var(--font-title);
-  font-size: 1.35rem;
+.phase__text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--ivory-soft);
+}
+
+/* --- Badge dourado "Você sai com" --- */
+.phase__badge {
+  margin-bottom: 1.6rem;
+  padding: 1.2rem 1.3rem;
+  background-color: rgba(210, 179, 106, 0.1);
+  border: 1px solid rgba(210, 179, 106, 0.45);
+  border-radius: 12px;
+}
+
+.phase__badge-label {
+  margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.phase__badge-text {
+  font-size: 0.95rem;
   font-weight: 500;
+  line-height: 1.6;
+  color: var(--gold);
+}
+
+/* --- Bloco "O que você realmente leva" --- */
+.takeaway {
+  margin-top: 4rem;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  background-color: var(--plum-accent);
+  border: 1.5px solid var(--gold);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.takeaway__title {
+  font-family: var(--font-title);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 400;
   line-height: 1.3;
   color: var(--off-white);
 }
 
-.phase-card__text {
-  position: relative;
-  margin-top: 0.9rem;
-  font-size: 0.95rem;
+.takeaway__lead {
+  max-width: 620px;
+  margin: 1rem auto 2.5rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+}
+
+/* 5 benefícios: 3 + 2 centralizados, sem órfão desalinhado */
+.takeaway__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  flex: 1 1 280px;
+  max-width: 340px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.25rem 1.3rem;
+  text-align: left;
+  background-color: rgba(29, 16, 46, 0.55);
+  border: 1px solid rgba(210, 179, 106, 0.3);
+  border-radius: 14px;
+  transition: border-color var(--t-fast), transform var(--t-fast);
+}
+.benefit:hover {
+  transform: translateY(-3px);
+  border-color: rgba(210, 179, 106, 0.7);
+}
+
+.benefit__icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.benefit__text {
+  font-size: 0.92rem;
   font-weight: 300;
   line-height: 1.6;
   color: var(--ivory-soft);
 }
+.benefit__text strong {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
 
-/* --- Chamada intermediária --- */
+/* --- Frase de fechamento --- */
+.method__closing {
+  max-width: 780px;
+  margin: 3.5rem auto 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--gold);
+}
+
+/* --- CTA da seção --- */
 .method__cta {
-  margin-top: 3.5rem;
+  margin-top: 2.5rem;
   text-align: center;
 }
 
-/* Botão vazado: borda dourada que se preenche no hover */
-.btn--ghost {
-  padding: 1.1rem 2.8rem;
+/* Botão sólido dourado */
+.btn--gold {
+  padding: 1.2rem 3rem;
   font-size: clamp(0.8rem, 0.95vw, 0.9rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 1px;
-  color: var(--gold);
-  background-color: transparent;
+  color: var(--plum-dark);
+  background-color: var(--gold);
   border: 2px solid var(--gold);
   border-radius: 50px;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
 }
-
-.btn--ghost::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-color: var(--gold);
-  transform: translateX(-101%);
-  transition: transform var(--t-med);
-}
-.btn--ghost:hover,
-.btn--ghost:focus-visible {
-  color: var(--plum-mid);
+.btn--gold:hover,
+.btn--gold:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 0 26px rgba(210, 179, 106, 0.4);
+  box-shadow: 0 0 30px rgba(210, 179, 106, 0.5);
 }
-.btn--ghost:hover::before,
-.btn--ghost:focus-visible::before { transform: translateX(0); }
-
 
 /* ==========================================================================
    13. RESPONSIVO
@@ -1046,36 +1170,44 @@ body.is-ready .reveal {
   }
 
   /* --- Seção 03: O Método --- */
-  .method { padding: 4rem 1.25rem; }
+  .method { padding: 4.5rem 1.25rem; }
 
   /* Fases empilhadas em ordem cronológica (01 → 04) */
-  .phase-grid {
+  .phases {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
-  .phase-card {
-    padding: 2rem 1.5rem;
-    padding-right: 4.75rem;          /* mantém o número livre do texto */
+  .phase {
+    padding: 2.2rem 1.5rem;
+    border-radius: 16px;
   }
-  .phase-card__number {
-    top: 1.4rem;
-    right: 1.4rem;
-    font-size: 2.5rem;
-  }
-  .phase-card:hover {
+  .phase:hover {
     transform: none;                 /* sem elevação presa em telas de toque */
-    box-shadow: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(210, 179, 106, 0.35);
   }
+  .phase__concept { font-size: 0.95rem; line-height: 1.7; }
+  .phase__badge { padding: 1rem 1.1rem; }
 
-  .method__cta { margin-top: 2.5rem; }
+  .takeaway {
+    margin-top: 3rem;
+    padding: 2.2rem 1.4rem;
+    border-radius: 16px;
+  }
+  .takeaway__lead { margin-bottom: 2rem; }
+  .benefit { flex: 1 1 100%; max-width: none; }
+  .benefit:hover { transform: none; }
+
+  .method__closing { margin-top: 2.5rem; }
+  .method__cta { margin-top: 2rem; }
 
   /* O rótulo é longo: em tela estreita ele quebra em vez de estourar */
-  .btn--ghost {
+  .btn--gold {
     white-space: normal;
-    padding: 1rem 1.4rem;
+    padding: 1.05rem 1.4rem;
     letter-spacing: 0.8px;
   }
-  .btn--ghost .btn__label { text-wrap: balance; }
+  .btn--gold .btn__label { text-wrap: balance; }
 }
 
 /* --- Celulares --- */

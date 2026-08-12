@@ -366,13 +366,15 @@ button:focus-visible {
   pointer-events: none;
 }
 
-/* Grid de 2 colunas: o texto ocupa a sobra, o arco tem largura própria.
-   `minmax(0, 1fr)` evita que o título force a coluna a crescer. */
+/* Grid de 2 colunas dimensionadas pelo conteúdo e centralizadas em bloco:
+   o texto encosta no arco e a sobra vai para as margens externas, em vez
+   de virar um vazio no meio da tela. */
 .hero__inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, max-content) auto;
+  justify-content: center;
   align-items: center;
-  gap: 3rem;                       /* blocos mais próximos, sem encostar */
+  gap: 2.5rem;
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
@@ -389,6 +391,9 @@ button:focus-visible {
 
 /* --- Tagline superior com fio dourado --- */
 .hero__tagline {
+  /* fit-content faz a caixa abraçar o texto, para que a linha decorativa
+     abaixo tenha exatamente a largura da tagline. */
+  width: fit-content;
   margin-bottom: clamp(18px, 3.2vh, 34px);
   padding-bottom: clamp(12px, 1.8vh, 18px);
   font-size: clamp(0.62rem, 0.78vw, 0.75rem);
@@ -398,15 +403,16 @@ button:focus-visible {
   color: var(--gold);
   position: relative;
 }
-/* Separador gráfico forte: dourado sólido, sem esmaecer nas pontas */
+/* Traço refinado que acompanha toda a largura da tagline, esmaecendo
+   suavemente até a ponta direita. */
 .hero__tagline::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 110px;
-  height: 2px;
-  background-color: var(--gold);
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(210, 179, 106, 0.2) 100%);
 }
 
 /* --- Título principal --- */
@@ -422,12 +428,20 @@ button:focus-visible {
   color: var(--off-white);
 }
 
-/* "referência." — mesma Playfair Display do restante do título, só que
-   no corte itálico. `inherit` garante que nenhuma fonte diferente entre. */
-.gold-italic {
-  font-family: inherit;
+/* "Imagem &" e "Posicionamento" — dourado na mesma Playfair do título */
+.gold-text {
+  color: var(--gold);
+}
+
+/* "referência." — serifada de luxo, em itálico, para fechar o título.
+   A Cormorant Garamond tem altura-x ~22% menor que a Playfair; o 1.25em
+   iguala opticamente as duas para a palavra não parecer encolhida. */
+.highlight-word {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: 1.25em;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   color: var(--gold);
 }
 
@@ -539,17 +553,7 @@ button:focus-visible {
   background-color: var(--plum-mid);
 }
 
-/* Acabamento dourado no centro da base do arco */
-.arch__ornament {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: clamp(38px, 3.4vw, 52px);
-  height: auto;
-  transform: translate(-50%, 46%);
-  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.8));
-  pointer-events: none;
-}
+/* O arco não leva ornamento: o contorno dourado corre limpo e contínuo. */
 
 
 /* ==========================================================================
@@ -693,14 +697,18 @@ body.is-ready .reveal {
 
   /* Tagline centralizada com o fio dourado abaixo */
   .hero__tagline {
+    width: auto;
+    margin-inline: auto;
     padding-bottom: 14px;
     font-size: 0.62rem;
     letter-spacing: 2.6px;
   }
+  /* Sob texto centralizado, o traço esmaece dos dois lados */
   .hero__tagline::after {
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;                     /* mesmo peso gráfico do desktop */
+    background: linear-gradient(90deg,
+      rgba(210, 179, 106, 0.15) 0%,
+      var(--gold) 50%,
+      rgba(210, 179, 106, 0.15) 100%);
   }
 
   .hero__title {

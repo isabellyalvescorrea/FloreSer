@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#3E0033">
+
+  <title>FloreSer — Imagem &amp; Posicionamento Estratégico</title>
+  <meta name="description" content="Consultoria de Imagem e Posicionamento Estratégico para mulheres que decidiram ser referência. Sua imagem precisa comunicar sua autoridade antes mesmo de você começar a falar.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo-mark.png">
+
+  <!-- Open Graph (compartilhamento em redes sociais) -->
+  <meta property="og:title" content="FloreSer — Imagem &amp; Posicionamento Estratégico">
+  <meta property="og:description" content="Para mulheres que decidiram ser referência.">
+  <meta property="og:type" content="website">
+
+  <!-- Tipografia: Playfair Display (títulos) + Montserrat (textos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Atalho de acessibilidade (visível apenas via teclado) -->
+  <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
+
+  <!-- ============================================================
+       HEADER — Logo centralizada com o menu distribuído ao redor
+       Desktop: 4 links | LOGO | 4 links   (sem botão de WhatsApp)
+       Mobile : LOGO centralizada + hambúrguer dourado à direita
+  ============================================================= -->
+  <header class="header" id="header">
+    <div class="header__inner">
+
+      <!-- Navegação esquerda (desktop) -->
+      <nav class="nav nav--left" aria-label="Navegação principal — esquerda">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#inicio">Início</a></li>
+          <li><a class="nav__link" href="#desafio">O Desafio</a></li>
+          <li><a class="nav__link" href="#metodo">O Método</a></li>
+          <li><a class="nav__link" href="#entregaveis">O Que Você Leva</a></li>
+        </ul>
+      </nav>
+
+      <!-- Logo central (marca + assinatura tipográfica) -->
+      <a class="brand" href="#inicio" aria-label="FloreSer — página inicial">
+        <img class="brand__mark" src="assets/images/logo-mark.png"
+             alt="" width="575" height="416" aria-hidden="true">
+        <span class="brand__lockup">
+          <span class="brand__name">FloreSer</span>
+          <span class="brand__tagline">Consultoria de Imagem<br>&amp; Posicionamento Estratégico</span>
+        </span>
+      </a>
+
+      <!-- Navegação direita (desktop) -->
+      <nav class="nav nav--right" aria-label="Navegação principal — direita">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#diferenciais">Diferenciais</a></li>
+          <li><a class="nav__link" href="#sobre">Sobre</a></li>
+          <li><a class="nav__link" href="#depoimentos">Depoimentos</a></li>
+          <li><a class="nav__link" href="#proximo-passo">Seu Próximo Passo</a></li>
+        </ul>
+      </nav>
+
+      <!-- Botão hambúrguer (apenas mobile) -->
+      <button class="burger" id="burger" type="button"
+              aria-label="Abrir menu de navegação"
+              aria-expanded="false" aria-controls="mobile-menu">
+        <span class="burger__bar"></span>
+        <span class="burger__bar"></span>
+        <span class="burger__bar"></span>
+      </button>
+
+    </div>
+    <!-- Fio dourado sutil na base do header (aparece ao rolar) -->
+    <span class="header__hairline" aria-hidden="true"></span>
+  </header>
+
+  <!-- ============================================================
+       MENU MOBILE — gaveta/overlay em tela cheia
+  ============================================================= -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="mobile-menu__nav" aria-label="Navegação principal — mobile">
+      <ul class="mobile-menu__list">
+        <li><a class="mobile-menu__link" href="#inicio">Início</a></li>
+        <li><a class="mobile-menu__link" href="#desafio">O Desafio</a></li>
+        <li><a class="mobile-menu__link" href="#metodo">O Método</a></li>
+        <li><a class="mobile-menu__link" href="#entregaveis">O Que Você Leva</a></li>
+        <li><a class="mobile-menu__link" href="#diferenciais">Diferenciais</a></li>
+        <li><a class="mobile-menu__link" href="#sobre">Sobre</a></li>
+        <li><a class="mobile-menu__link" href="#depoimentos">Depoimentos</a></li>
+        <li><a class="mobile-menu__link" href="#proximo-passo">Seu Próximo Passo</a></li>
+      </ul>
+      <img class="mobile-menu__ornament" src="assets/images/logo-mark.png"
+           alt="" width="575" height="416" aria-hidden="true">
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ==========================================================
+         01. HERO / INÍCIO — 100vh no desktop (sem scroll)
+    =========================================================== -->
+    <section class="hero" id="inicio">
+
+      <!-- Ramo botânico em linha, canto inferior esquerdo -->
+      <svg class="hero__branch" viewBox="0 0 300 380" fill="none" aria-hidden="true">
+        <path d="M148 378C148 300 132 232 96 176 66 130 30 96 4 78"
+              stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M120 250c-30-6-54-26-66-56 32-4 58 12 74 40M132 292c-34 2-64-10-84-38 30-14 62-6 84 20"
+              stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M112 196c-22-16-34-42-32-74 28 12 44 38 44 70M96 152c-28-4-50-22-62-52 30-6 56 8 70 34"
+              stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M146 330c26-10 44-32 50-64-28 2-50 20-60 48"
+              stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+      </svg>
+
+      <div class="hero__inner">
+
+        <!-- ---------- COLUNA ESQUERDA: textos e conversão ---------- -->
+        <div class="hero__content">
+
+          <p class="hero__tagline reveal" style="--d:0ms">
+            FloreSer — Imagem &amp; Posicionamento Estratégico
+          </p>
+
+          <!-- As quebras <br> valem só no desktop (.br-desktop some no mobile,
+               onde o título flui livre para acompanhar a largura da tela). -->
+          <h1 class="hero__title reveal" style="--d:120ms">
+            Imagem &amp; Posicionamento <br class="br-desktop">
+            para mulheres que <br class="br-desktop">
+            decidiram ser <span class="gold-italic">referência.</span>
+          </h1>
+
+          <p class="hero__lead reveal" style="--d:240ms">
+            Você construiu uma carreira de respeito.<br>
+            Sua imagem precisa comunicar isso antes mesmo de você começar a falar.
+          </p>
+
+          <div class="hero__actions reveal" style="--d:360ms">
+            <a class="btn btn--primary" href="#proximo-passo">
+              <span class="btn__label">Quero viver o FloreSer</span>
+              <span class="btn__arrow" aria-hidden="true">
+                <svg viewBox="0 0 32 12" fill="none">
+                  <path d="M0 6h29M24 1l5.5 5L24 11" stroke="currentColor"
+                        stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- ---------- COLUNA DIREITA: arco editorial + foto ---------- -->
+        <div class="hero__figure reveal" style="--d:300ms">
+          <figure class="arch">
+            <img class="arch__photo" src="assets/images/consultora-hero.png"
+                 alt="Consultora do método FloreSer, especialista em imagem e posicionamento estratégico"
+                 width="1004" height="1325" fetchpriority="high" decoding="async">
+            <!-- Acabamento dourado no centro da base do arco -->
+            <img class="arch__ornament" src="assets/images/logo-mark.png"
+                 alt="" width="575" height="416" aria-hidden="true">
+          </figure>
+        </div>
+
+      </div>
+
+      <!-- Fio dourado degradê na base da hero -->
+      <span class="hero__hairline" aria-hidden="true"></span>
+    </section>
+
+
+    <!-- ==========================================================
+         SEÇÕES SEGUINTES — estrutura pronta para as próximas telas
+         Remova a classe .section-placeholder e o <span> interno
+         ao construir o conteúdo definitivo de cada seção.
+    =========================================================== -->
+
+    <!-- 02. O DESAFIO -->
+    <section id="desafio" class="section section-placeholder" aria-label="O Desafio">
+      <span class="section-placeholder__label">O Desafio</span>
+    </section>
+
+    <!-- 03. O MÉTODO -->
+    <section id="metodo" class="section section-placeholder" aria-label="O Método">
+      <span class="section-placeholder__label">O Método</span>
+    </section>
+
+    <!-- 04. O QUE VOCÊ LEVA -->
+    <section id="entregaveis" class="section section-placeholder" aria-label="O Que Você Leva">
+      <span class="section-placeholder__label">O Que Você Leva</span>
+    </section>
+
+    <!-- 05. DIFERENCIAIS -->
+    <section id="diferenciais" class="section section-placeholder" aria-label="Diferenciais">
+      <span class="section-placeholder__label">Diferenciais</span>
+    </section>
+
+    <!-- 06. SOBRE -->
+    <section id="sobre" class="section section-placeholder" aria-label="Sobre">
+      <span class="section-placeholder__label">Sobre</span>
+    </section>
+
+    <!-- 07. DEPOIMENTOS -->
+    <section id="depoimentos" class="section section-placeholder" aria-label="Depoimentos">
+      <span class="section-placeholder__label">Depoimentos</span>
+    </section>
+
+    <!-- 08. SEU PRÓXIMO PASSO -->
+    <section id="proximo-passo" class="section section-placeholder" aria-label="Seu Próximo Passo">
+      <span class="section-placeholder__label">Seu Próximo Passo</span>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,775 @@
+/* ==========================================================================
+   FLORESER — Consultoria de Imagem & Posicionamento Estratégico
+   Folha de estilo principal — Hero Section (tela inicial)
+   --------------------------------------------------------------------------
+   Sumário
+   01. Variáveis de tema (cores, tipografia, medidas)
+   02. Reset e bases
+   03. Utilitários e acessibilidade
+   04. Header e navegação desktop
+   05. Menu mobile (hambúrguer + gaveta)
+   06. Hero Section — layout 100vh
+   07. Hero — coluna de texto e CTA
+   08. Hero — arco editorial com a foto
+   09. Animações de entrada
+   10. Seções seguintes (placeholders)
+   11. Responsivo (tablet e mobile)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. VARIÁVEIS DE TEMA
+   ========================================================================== */
+:root {
+  /* --- Paleta oficial da marca --- */
+  --plum-mid:    #3E0033;  /* Vinho Ameixa — fundo principal da Hero */
+  --plum-dark:   #1D102E;  /* Ameixa Profundo — seções futuras */
+  --plum-accent: #5A0034;  /* Vinho Profundo — detalhes e botões */
+  --gold:        #D2B36A;  /* Dourado Luminoso / Champagne */
+  --off-white:   #F7F3EC;  /* Marfim — textos de leitura */
+
+  /* --- Derivadas (transparências da paleta, sem cores novas) --- */
+  --gold-line:   rgba(210, 179, 106, 0.30);
+  --gold-soft:   rgba(210, 179, 106, 0.55);
+  --ivory-soft:  rgba(247, 243, 236, 0.82);
+  --ivory-faint: rgba(247, 243, 236, 0.42);
+  --plum-deepest:#2B0025;  /* tom intermediário para separar as seções */
+  --plum-arch:   #26001F;  /* interior do arco — ameixa sólido mais escuro */
+
+  /* --- Tipografia --- */
+  --font-title: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:  'Montserrat', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* --- Medidas de layout --- */
+  --header-h: clamp(74px, 8.5vh, 100px);
+  --gutter:   clamp(20px, 4.6vw, 68px);
+  /* 1560px dá à coluna de texto a medida que "Imagem & Posicionamento"
+     exige para caber em uma linha só, inclusive quando o título atinge
+     seu tamanho máximo (4.5rem) em telas grandes. */
+  --maxw:     1560px;
+
+  /* --- Dimensões do arco editorial (dirigem toda a coluna direita) --- */
+  --arch-w: clamp(300px, 30vw, 440px);
+  --arch-h: min(68vh, calc(var(--arch-w) * 1.4));
+
+  /* --- Transições --- */
+  --ease:   cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 0.25s var(--ease);
+  --t-med:  0.45s var(--ease);
+}
+
+
+/* ==========================================================================
+   02. RESET E BASES
+   ========================================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  /* Scroll suave entre as âncoras do menu */
+  scroll-behavior: smooth;
+  /* Impede que o header fixo cubra o topo da seção alvo (+ respiro) */
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--off-white);
+  background-color: var(--plum-mid);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Trava o scroll do body enquanto o menu mobile está aberto */
+body.is-locked { overflow: hidden; }
+
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+::selection {
+  background: var(--gold);
+  color: var(--plum-mid);
+}
+
+
+/* ==========================================================================
+   03. UTILITÁRIOS E ACESSIBILIDADE
+   ========================================================================== */
+
+/* Link "pular para o conteúdo" — visível apenas com foco de teclado */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  z-index: 999;
+  padding: 10px 20px;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--plum-mid);
+  background: var(--gold);
+  border-radius: 999px;
+  transform: translate(-50%, -160%);
+  transition: transform var(--t-fast);
+}
+.skip-link:focus-visible { transform: translate(-50%, 0); }
+
+/* Anel de foco padronizado em toda a página */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+
+/* ==========================================================================
+   04. HEADER E NAVEGAÇÃO DESKTOP
+   ========================================================================== */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  /* Acima da gaveta mobile (z-index 110) para que a logo e o botão de
+     fechar continuem visíveis e clicáveis com o menu aberto. */
+  z-index: 120;
+  height: var(--header-h);
+  transition: background-color var(--t-med), backdrop-filter var(--t-med);
+}
+
+/* Fundo sólido só depois que a página começa a rolar */
+.header.is-scrolled {
+  background-color: var(--plum-mid);
+}
+
+.header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;   /* menu | logo | menu */
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 48px);
+  height: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Fio dourado na base do header (fade-in ao rolar) */
+.header__hairline {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line) 22%, var(--gold-soft) 50%, var(--gold-line) 78%, transparent);
+  opacity: 0;
+  transition: opacity var(--t-med);
+}
+.header.is-scrolled .header__hairline { opacity: 1; }
+
+/* --- Listas de links --- */
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.9vw, 34px);
+}
+.nav--left  .nav__list { justify-content: flex-start; }
+.nav--right .nav__list { justify-content: flex-end; }
+
+.nav__link {
+  position: relative;
+  display: inline-block;
+  padding: 6px 2px;
+  font-size: clamp(0.72rem, 0.86vw, 0.85rem);
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--ivory-soft);
+  white-space: nowrap;
+  transition: color var(--t-fast);
+}
+
+/* Sublinhado dourado que cresce a partir do centro */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: translateX(-50%);
+  transition: width var(--t-fast);
+}
+.nav__link:hover,
+.nav__link.is-active { color: var(--gold); }
+.nav__link:hover::after,
+.nav__link.is-active::after { width: 100%; }
+
+/* --- Logo central (marca + assinatura) --- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 0.8vw, 12px);
+  transition: opacity var(--t-fast);
+}
+.brand:hover { opacity: 0.86; }
+
+.brand__mark {
+  width: auto;
+  height: clamp(36px, 4.4vh, 52px);
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));
+}
+
+.brand__lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand__name {
+  font-family: var(--font-title);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: var(--gold);              /* dourado sólido, sem degradê */
+}
+
+/* Assinatura sob a logo — legível: dourado cheio, sem transparência */
+.brand__tagline {
+  font-size: clamp(0.56rem, 0.66vw, 0.72rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 1;
+}
+
+
+/* ==========================================================================
+   05. MENU MOBILE (hambúrguer + gaveta)
+   ========================================================================== */
+.burger {
+  display: none;           /* exibido apenas no breakpoint mobile */
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-self: end;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.burger__bar {
+  display: block;
+  width: 26px;
+  height: 1.5px;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: transform var(--t-fast), opacity var(--t-fast);
+}
+
+/* Hambúrguer vira "X" quando o menu está aberto */
+.burger.is-open .burger__bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.burger.is-open .burger__bar:nth-child(2) { opacity: 0; }
+.burger.is-open .burger__bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* --- Gaveta / overlay em tela cheia --- */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--header-h) 28px 40px;
+  background-color: var(--plum-mid);   /* sólido, sem degradê */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(12%);
+  transition: opacity var(--t-med), transform var(--t-med), visibility var(--t-med);
+}
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(22px, 5vh, 40px);
+  width: 100%;
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.6vh, 22px);
+  width: 100%;
+}
+
+.mobile-menu__link {
+  display: block;
+  padding: 4px 8px;
+  font-family: var(--font-title);
+  font-size: clamp(1.15rem, 5.4vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--off-white);
+  text-align: center;
+  transition: color var(--t-fast);
+}
+.mobile-menu__link:hover,
+.mobile-menu__link.is-active {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.mobile-menu__ornament {
+  width: 62px;
+  height: auto;
+  opacity: 0.65;
+}
+
+
+/* ==========================================================================
+   06. HERO SECTION — layout 100vh (tudo visível sem scroll no desktop)
+   ========================================================================== */
+.hero {
+  position: relative;
+  display: grid;
+  align-content: center;          /* centraliza o bloco verticalmente */
+  min-height: 100vh;
+  min-height: 100svh;             /* respeita a barra do navegador no mobile */
+  padding: calc(var(--header-h) + clamp(8px, 2vh, 24px)) 0 clamp(24px, 5vh, 56px);
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Cor sólida pura — sem gradiente, vinheta ou halo de ambiente */
+  background-color: var(--plum-mid);
+}
+
+/* Ramo botânico em linha (canto inferior esquerdo) */
+.hero__branch {
+  position: absolute;
+  z-index: -1;
+  left: -28px;
+  bottom: -10px;
+  width: clamp(150px, 17vw, 260px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+/* Fio dourado degradê na base da hero */
+.hero__hairline {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line) 25%, var(--gold-soft) 50%, var(--gold-line) 75%, transparent);
+  pointer-events: none;
+}
+
+/* Grid de 2 colunas: o texto ocupa a sobra, o arco tem largura própria.
+   `minmax(0, 1fr)` evita que o título force a coluna a crescer. */
+.hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 3rem;                       /* blocos mais próximos, sem encostar */
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+
+/* ==========================================================================
+   07. HERO — COLUNA DE TEXTO E CTA
+   ========================================================================== */
+/* A largura é definida pela coluna do grid — sem cap extra, para o título
+   quebrar em 4 linhas e a tagline caber em uma só (como no layout aprovado). */
+.hero__content { max-width: 100%; }
+
+/* --- Tagline superior com fio dourado --- */
+.hero__tagline {
+  margin-bottom: clamp(18px, 3.2vh, 34px);
+  padding-bottom: clamp(12px, 1.8vh, 18px);
+  font-size: clamp(0.62rem, 0.78vw, 0.75rem);
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  position: relative;
+}
+.hero__tagline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 68px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* --- Título principal --- */
+.hero__title {
+  font-family: var(--font-title);
+  /* 4.5vw é o valor de referência; o termo em vh só entra em telas muito
+     baixas, para preservar o requisito de 100vh sem scroll. */
+  font-size: clamp(3rem, min(4.5vw, 8.5vh), 4.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--off-white);
+}
+
+/* "referência." em itálico dourado sólido */
+.gold-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--gold);
+}
+
+/* --- Texto de apoio --- */
+.hero__lead {
+  margin-top: clamp(20px, 3.2vh, 34px);
+  font-size: clamp(1rem, min(1.4vw, 2.6vh), 1.25rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ivory-soft);
+  max-width: 40em;
+}
+
+/* --- Botão CTA principal --- */
+.hero__actions { margin-top: clamp(22px, 4vh, 42px); }
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2vw, 32px);
+  padding: 1.2rem 2.8rem;
+  font-size: clamp(0.9rem, min(1.1vw, 2vh), 1.05rem);
+  font-weight: 500;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 999px;              /* formato cápsula */
+  overflow: hidden;
+  isolation: isolate;
+  transition: color var(--t-med), transform var(--t-med), box-shadow var(--t-med), border-color var(--t-med);
+}
+
+.btn--primary {
+  color: var(--off-white);
+  background-color: var(--plum-accent);   /* sólido, sem degradê */
+  border: 2px solid var(--gold);          /* borda dourada bem marcada */
+  box-shadow: 0 0 15px rgba(210, 179, 106, 0.25);
+}
+
+/* Preenchimento dourado sólido que desliza no hover */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-color: var(--gold);
+  transform: translateX(-101%);
+  transition: transform var(--t-med);
+}
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  color: var(--plum-mid);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 0 26px rgba(210, 179, 106, 0.45);
+}
+.btn--primary:hover::before,
+.btn--primary:focus-visible::before { transform: translateX(0); }
+.btn--primary:active { transform: translateY(0); }
+
+.btn__label { position: relative; }
+
+.btn__arrow {
+  display: flex;
+  width: clamp(24px, 2vw, 32px);
+  transition: transform var(--t-med);
+}
+.btn__arrow svg { width: 100%; height: auto; }
+.btn:hover .btn__arrow { transform: translateX(5px); }
+
+
+/* ==========================================================================
+   08. HERO — ARCO EDITORIAL COM A FOTO
+   ========================================================================== */
+.hero__figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arch {
+  position: relative;
+  width: var(--arch-w);
+  height: var(--arch-h);
+  /* Arco: topo em semicírculo perfeito (metade da largura) + base levemente arredondada */
+  border-radius: calc(var(--arch-w) / 2) calc(var(--arch-w) / 2) 10px 10px;
+  border: 3px solid var(--gold);     /* borda dourada bem marcada */
+  padding: 6px;                      /* respiro entre a moldura e a foto */
+  box-shadow: 0 0 26px rgba(210, 179, 106, 0.28);
+  transition: box-shadow var(--t-med), transform var(--t-med);
+}
+.arch:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 40px rgba(210, 179, 106, 0.42);
+}
+
+/* Foto encaixada no arco, sem distorção */
+.arch__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 12%;       /* mantém o rosto na área nobre do arco */
+  /* Herda o formato do arco, descontando padding (6px) + borda (3px) */
+  border-radius: calc(var(--arch-w) / 2 - 9px) calc(var(--arch-w) / 2 - 9px) 4px 4px;
+  /* Cor sólida: a foto é PNG recortado (fundo transparente) e precisa de um
+     campo mais escuro que o fundo para a consultora destacar. */
+  background-color: var(--plum-arch);
+}
+
+/* Acabamento dourado no centro da base do arco */
+.arch__ornament {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: clamp(38px, 3.4vw, 52px);
+  height: auto;
+  transform: translate(-50%, 46%);
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   09. ANIMAÇÕES DE ENTRADA
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+/* .is-ready é adicionada pelo JS após o carregamento */
+body.is-ready .reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.9s var(--ease) var(--d, 0ms),
+              transform 0.9s var(--ease) var(--d, 0ms);
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   10. SEÇÕES SEGUINTES (placeholders)
+   Remova .section-placeholder ao construir o conteúdo real.
+   ========================================================================== */
+.section {
+  position: relative;
+  /* O deslocamento do header fixo é feito por `scroll-padding-top` no <html>.
+     Não repetir aqui com `scroll-margin-top` — os dois se somam. */
+}
+
+.section-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 62vh;
+  padding: clamp(56px, 9vh, 110px) var(--gutter);
+  background: var(--plum-dark);
+  border-top: 1px solid rgba(210, 179, 106, 0.1);
+}
+/* Alterna o tom de fundo para separar visualmente as seções */
+.section-placeholder:nth-of-type(even) { background: var(--plum-deepest); }
+
+.section-placeholder__label {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 3.4vw, 2.4rem);
+  font-style: italic;
+  color: var(--ivory-faint);
+  letter-spacing: 1px;
+}
+
+
+/* ==========================================================================
+   11. RESPONSIVO
+   ========================================================================== */
+
+/* --- Telas baixas no desktop: comprime o suficiente para caber em 100vh --- */
+@media (min-width: 981px) and (max-height: 780px) {
+  :root { --header-h: 70px; }
+  .hero__title { font-size: min(4.5vw, 7.6vh); }
+  .hero__lead  { font-size: min(1.4vw, 2.3vh); line-height: 1.6; }
+  .btn         { padding: 0.95rem 2.2rem; }
+}
+
+/* --- Notebooks e tablets grandes --- */
+@media (max-width: 1180px) {
+  .nav__list { gap: clamp(10px, 1.4vw, 20px); }
+  .nav__link { font-size: 0.72rem; }
+  .btn { padding: 1.1rem 2rem; letter-spacing: 1.8px; }
+}
+
+/* --- Desktop estreito: sem esta faixa, "Imagem & Posicionamento" não
+   caberia em uma linha e o título quebraria em 4 linhas. --- */
+@media (min-width: 981px) and (max-width: 1120px) {
+  :root { --arch-w: max(260px, 27vw); }
+  .hero__title { font-size: min(4.2vw, 8.5vh); }
+}
+
+/* Abaixo disso a assinatura sob a logo não cabe sem espremer o menu */
+@media (max-width: 1080px) and (min-width: 981px) {
+  .brand__tagline { display: none; }
+}
+
+/* --- Tablet e mobile: empilhamento em coluna única --- */
+@media (max-width: 980px) {
+  :root {
+    --header-h: 68px;
+    --arch-w: min(78vw, 360px);
+    --arch-h: calc(var(--arch-w) * 1.34);
+  }
+
+  /* Header: logo centralizada + hambúrguer à direita */
+  .header__inner {
+    grid-template-columns: 44px 1fr 44px;
+  }
+  .nav { display: none; }
+  .burger { display: flex; grid-column: 3; }
+
+  .brand {
+    grid-column: 2;
+    justify-content: center;
+  }
+  .brand__mark { height: 34px; }
+  .brand__name { font-size: 1.28rem; }
+
+  /* Hero em coluna única, na ordem pedida:
+     tagline → título → texto → botão → foto */
+  .hero {
+    min-height: 100svh;
+    padding: calc(var(--header-h) + 20px) 0 44px;
+  }
+  .hero__inner {
+    /* minmax(0, 1fr): impede que um filho de largura mínima grande
+       (ex.: o botão) estique a coluna e estoure a tela. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(26px, 4vh, 40px);
+    text-align: center;
+  }
+  .hero__content {
+    max-width: 100%;
+    display: contents;               /* permite ordenar os filhos no grid */
+  }
+
+  /* Ordem explícita dos blocos no mobile */
+  .hero__tagline { order: 1; margin-bottom: 0; }
+  .hero__title   { order: 2; }
+  .hero__lead    { order: 3; margin-top: 0; margin-inline: auto; }
+  .hero__actions { order: 4; margin-top: 0; }
+  .hero__figure  { order: 5; }
+
+  /* Tagline centralizada com o fio dourado abaixo */
+  .hero__tagline {
+    padding-bottom: 14px;
+    font-size: 0.62rem;
+    letter-spacing: 2.6px;
+  }
+  .hero__tagline::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hero__title {
+    max-width: 100%;              /* no mobile o título usa a largura toda */
+    margin-inline: auto;
+    font-size: clamp(2rem, 8.6vw, 3rem);
+    line-height: 1.2;
+  }
+  /* As quebras fixas do desktop travariam o texto numa medida maior que a
+     tela — no mobile o título reflui sozinho. */
+  .br-desktop { display: none; }
+
+  .hero__lead {
+    font-size: clamp(1rem, 4.2vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 34ch;
+  }
+  .hero__lead br { display: none; }
+
+  /* CTA em largura total para facilitar o toque */
+  .btn {
+    display: flex;
+    width: 100%;
+    padding: 1.15rem 1.5rem;
+    font-size: clamp(0.82rem, 3.4vw, 0.95rem);
+    letter-spacing: 2px;
+  }
+
+  .hero__branch { width: 130px; opacity: 0.1; }
+}
+
+/* --- Celulares --- */
+@media (max-width: 600px) {
+  :root { --arch-w: min(76vw, 300px); }
+
+  .hero { padding: calc(var(--header-h) + 14px) 0 34px; }
+  .hero__inner { gap: 22px; }
+  .btn { gap: 14px; }
+}
+
+/* --- Celulares muito pequenos (≤ 360px) ---
+   O texto do CTA + seta + padding formam uma largura mínima que não cabe
+   na coluna nesta faixa; os valores abaixo trazem o botão para dentro. --- */
+@media (max-width: 360px) {
+  :root { --arch-w: 74vw; }
+  .brand__name { font-size: 1.2rem; }
+  .btn {
+    gap: 10px;
+    padding: 1rem 0.9rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.8px;
+  }
+  .btn__arrow { width: 22px; }
+}
+
+/* --- Mobile deitado (paisagem): evita que a foto estoure a tela --- */
+@media (max-width: 980px) and (orientation: landscape) and (max-height: 560px) {
+  :root { --arch-w: 170px; }
+  .hero { padding-top: calc(var(--header-h) + 12px); }
+  .hero__title { font-size: 1.7rem; }
+  .hero__lead { display: none; }
+}

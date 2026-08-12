@@ -34,7 +34,6 @@
   --ivory-soft:  rgba(247, 243, 236, 0.82);
   --ivory-faint: rgba(247, 243, 236, 0.42);
   --plum-deepest:#2B0025;  /* tom intermediário para separar as seções */
-  --plum-arch:   #26001F;  /* interior do arco — ameixa sólido mais escuro */
 
   /* --- Tipografia --- */
   --font-title: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -154,7 +153,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: 1fr auto 1fr;   /* menu | logo | menu */
   align-items: center;
-  gap: clamp(16px, 2.6vw, 48px);
+  gap: clamp(18px, 2vw, 34px);           /* respiro justo ao redor da logo */
   height: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
@@ -176,10 +175,12 @@ button:focus-visible {
 .nav__list {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.9vw, 34px);
+  gap: clamp(14px, 1.9vw, 30px);
 }
-.nav--left  .nav__list { justify-content: flex-start; }
-.nav--right .nav__list { justify-content: flex-end; }
+/* Os links se agrupam em direção à logo (e não nas bordas da tela), para
+   que menu + logo formem um único bloco coeso e centralizado. */
+.nav--left  .nav__list { justify-content: flex-end; }
+.nav--right .nav__list { justify-content: flex-start; }
 
 .nav__link {
   position: relative;
@@ -225,12 +226,6 @@ button:focus-visible {
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));
 }
 
-.brand__lockup {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .brand__name {
   font-family: var(--font-title);
   font-size: clamp(1.3rem, 2vw, 1.8rem);
@@ -238,17 +233,6 @@ button:focus-visible {
   line-height: 1;
   letter-spacing: 0.5px;
   color: var(--gold);              /* dourado sólido, sem degradê */
-}
-
-/* Assinatura sob a logo — legível: dourado cheio, sem transparência */
-.brand__tagline {
-  font-size: clamp(0.56rem, 0.66vw, 0.72rem);
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0.9px;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 1;
 }
 
 
@@ -414,30 +398,34 @@ button:focus-visible {
   color: var(--gold);
   position: relative;
 }
+/* Separador gráfico forte: dourado sólido, sem esmaecer nas pontas */
 .hero__tagline::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 68px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent);
+  width: 110px;
+  height: 2px;
+  background-color: var(--gold);
 }
 
 /* --- Título principal --- */
 .hero__title {
   font-family: var(--font-title);
-  /* 4.5vw é o valor de referência; o termo em vh só entra em telas muito
-     baixas, para preservar o requisito de 100vh sem scroll. */
-  font-size: clamp(3rem, min(4.5vw, 8.5vh), 4.5rem);
+  /* 4.85vw é o maior coeficiente em que "decidiram ser referência." — a
+     linha mais longa — cabe na coluna em toda a faixa de desktop, sem
+     degraus de media query. O termo em vh preserva o 100vh em telas baixas. */
+  font-size: clamp(3.2rem, min(4.85vw, 8.7vh), 4.8rem);
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.5px;
   color: var(--off-white);
 }
 
-/* "referência." em itálico dourado sólido */
+/* "referência." — mesma Playfair Display do restante do título, só que
+   no corte itálico. `inherit` garante que nenhuma fonte diferente entre. */
 .gold-italic {
+  font-family: inherit;
   font-style: italic;
   font-weight: 400;
   color: var(--gold);
@@ -446,11 +434,11 @@ button:focus-visible {
 /* --- Texto de apoio --- */
 .hero__lead {
   margin-top: clamp(20px, 3.2vh, 34px);
-  font-size: clamp(1rem, min(1.4vw, 2.6vh), 1.25rem);
+  font-size: clamp(1.05rem, min(1.5vw, 2.7vh), 1.35rem);
   font-weight: 300;
-  line-height: 1.75;
-  color: var(--ivory-soft);
-  max-width: 40em;
+  line-height: 1.7;
+  color: var(--off-white);         /* leitura com contraste cheio */
+  max-width: 38em;
 }
 
 /* --- Botão CTA principal --- */
@@ -462,8 +450,8 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   gap: clamp(16px, 2vw, 32px);
-  padding: 1.2rem 2.8rem;
-  font-size: clamp(0.9rem, min(1.1vw, 2vh), 1.05rem);
+  padding: 1.25rem 3rem;
+  font-size: clamp(0.95rem, min(1.2vw, 2.2vh), 1.15rem);
   font-weight: 500;
   letter-spacing: 2.4px;
   text-transform: uppercase;
@@ -546,9 +534,9 @@ button:focus-visible {
   object-position: center 12%;       /* mantém o rosto na área nobre do arco */
   /* Herda o formato do arco, descontando padding (6px) + borda (3px) */
   border-radius: calc(var(--arch-w) / 2 - 9px) calc(var(--arch-w) / 2 - 9px) 4px 4px;
-  /* Cor sólida: a foto é PNG recortado (fundo transparente) e precisa de um
-     campo mais escuro que o fundo para a consultora destacar. */
-  background-color: var(--plum-arch);
+  /* Exatamente a mesma cor sólida do fundo da seção — sem sombra interna
+     nem degradê. O arco passa a ser definido só pela borda dourada. */
+  background-color: var(--plum-mid);
 }
 
 /* Acabamento dourado no centro da base do arco */
@@ -629,9 +617,10 @@ body.is-ready .reveal {
 /* --- Telas baixas no desktop: comprime o suficiente para caber em 100vh --- */
 @media (min-width: 981px) and (max-height: 780px) {
   :root { --header-h: 70px; }
-  .hero__title { font-size: min(4.5vw, 7.6vh); }
-  .hero__lead  { font-size: min(1.4vw, 2.3vh); line-height: 1.6; }
-  .btn         { padding: 0.95rem 2.2rem; }
+  /* O título já se ajusta sozinho pelo termo em vh do clamp — aqui só
+     comprimimos o entorno, liberando altura para ele. */
+  .hero__lead  { font-size: min(1.5vw, 2.2vh); line-height: 1.55; }
+  .btn         { padding: 0.95rem 2.4rem; font-size: min(1.2vw, 1.8vh); }
 }
 
 /* --- Notebooks e tablets grandes --- */
@@ -641,11 +630,13 @@ body.is-ready .reveal {
   .btn { padding: 1.1rem 2rem; letter-spacing: 1.8px; }
 }
 
-/* --- Desktop estreito: sem esta faixa, "Imagem & Posicionamento" não
-   caberia em uma linha e o título quebraria em 4 linhas. --- */
-@media (min-width: 981px) and (max-width: 1120px) {
-  :root { --arch-w: max(260px, 27vw); }
-  .hero__title { font-size: min(4.2vw, 8.5vh); }
+/* --- Desktop estreito: aqui o H1 atinge o piso do clamp (3.2rem) e para
+   de encolher, então quem abre espaço para a linha mais longa é o arco. --- */
+@media (min-width: 981px) and (max-width: 1220px) {
+  :root {
+    --arch-w: max(260px, 27vw);
+    --gutter: clamp(20px, 3.4vw, 46px);  /* margem lateral mais enxuta */
+  }
 }
 
 /* Abaixo disso a assinatura sob a logo não cabe sem espremer o menu */
@@ -709,8 +700,7 @@ body.is-ready .reveal {
   .hero__tagline::after {
     left: 50%;
     transform: translateX(-50%);
-    width: 56px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    width: 90px;                     /* mesmo peso gráfico do desktop */
   }
 
   .hero__title {

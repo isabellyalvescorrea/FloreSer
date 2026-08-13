@@ -793,12 +793,14 @@ body.is-ready .reveal {
   display: flex;
   flex-direction: column;
   padding: 3rem 2.5rem;
-  /* Iluminação ambiente: o card é mais quente na diagonal superior */
-  background: linear-gradient(145deg, rgba(40, 5, 33, 0.95) 0%, rgba(29, 16, 46, 0.98) 100%);
-  border: 1px solid rgba(210, 179, 106, 0.3);
-  border-top: 2px solid rgba(210, 179, 106, 0.6);   /* fio de luz no topo */
+  /* Ameixa Profundo metalizado: o #1D102E da paleta com brilho na diagonal
+     superior e queda para um tom mais fechado na base. */
+  background: linear-gradient(145deg, #25163A 0%, #1D102E 60%, #150B22 100%);
+  border: 1.5px solid rgba(210, 179, 106, 0.4);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  /* A sombra interna cria o fio de luz metálico na aresta superior */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
+              inset 0 1px 1px rgba(210, 179, 106, 0.2);
   transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
@@ -819,37 +821,30 @@ body.is-ready .reveal {
   transform: translateY(-8px);
   border-color: rgba(210, 179, 106, 0.8);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
-              0 0 20px rgba(210, 179, 106, 0.2);
+              0 0 20px rgba(210, 179, 106, 0.2),
+              inset 0 1px 1px rgba(210, 179, 106, 0.3);
 }
 
 /* --- Cabeçalho do card --- */
-.phase__head {
-  padding-bottom: 1.4rem;
-  margin-bottom: 1.6rem;
-  border-bottom: 1px solid rgba(210, 179, 106, 0.2);
+.phase__head { margin-bottom: 1.4rem; }
+
+/* Linha decorativa (PNG) logo abaixo do título da fase */
+.phase__rule {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 1.1rem 0 0;
 }
 
-/* Emblema circular dourado que abriga o ícone vetorial da fase */
-.phase__emblem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 1.2rem;
-  color: var(--gold);
-  background: radial-gradient(circle, rgba(210, 179, 106, 0.2) 0%, rgba(30, 10, 46, 0.6) 100%);
-  border: 1.5px solid var(--gold);
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(210, 179, 106, 0.2);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-.phase__emblem svg { width: 26px; height: 26px; }
-
-/* O emblema reage junto com o card */
-.phase:hover .phase__emblem {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 0 25px rgba(210, 179, 106, 0.5);
+/* Ornamento floral (PNG) no meio do card */
+.phase__ornament {
+  display: block;
+  width: 90%;
+  height: auto;
+  margin: 1.5rem auto 1.8rem;
+  object-fit: contain;
+  opacity: 0.9;
 }
 
 .phase__name {
@@ -940,6 +935,19 @@ body.is-ready .reveal {
 }
 .phase__badge-icon svg { width: 16px; height: 16px; }
 
+/* --- Seção 04: O que você leva (entregáveis) --- */
+.deliverables {
+  padding: 6rem 2rem;
+  background-color: var(--plum-dark);
+  color: var(--off-white);
+}
+.deliverables__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+/* Dentro da própria seção o bloco não precisa de afastamento superior */
+.deliverables .takeaway { margin-top: 0; }
+
 /* --- Bloco "O que você realmente leva" --- */
 .takeaway {
   margin-top: 4rem;
@@ -981,6 +989,9 @@ body.is-ready .reveal {
 
 .benefit {
   flex: 1 1 280px;
+  /* Sem o min-width os 5 encolheriam para caber numa fileira só;
+     com ele quebram em 3 + 2, centralizados. */
+  min-width: 260px;
   max-width: 340px;
   display: flex;
   align-items: flex-start;
@@ -1023,11 +1034,11 @@ body.is-ready .reveal {
   max-width: 780px;
   margin: 3.5rem auto 0;
   font-family: var(--font-title);
-  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
   font-weight: 400;
   line-height: 1.5;
   text-align: center;
-  color: var(--gold);
+  color: var(--off-white);
 }
 
 /* --- CTA da seção --- */
@@ -1214,15 +1225,16 @@ body.is-ready .reveal {
   }
   .phase:hover {
     transform: none;                 /* sem elevação presa em telas de toque */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border-color: rgba(210, 179, 106, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(210, 179, 106, 0.2);
+    border-color: rgba(210, 179, 106, 0.4);
   }
   .phase__concept { font-size: 0.95rem; line-height: 1.7; }
   .phase__badge { padding: 0.6rem 1rem; }
-  .phase__emblem { width: 50px; height: 50px; }
-  .phase__emblem svg { width: 23px; height: 23px; }
-  /* Sem hover preso em telas de toque */
-  .phase:hover .phase__emblem { transform: none; box-shadow: 0 0 15px rgba(210, 179, 106, 0.2); }
+  .phase__ornament { width: 95%; margin: 1.2rem auto 1.4rem; }
+  .phase__rule { max-width: 240px; margin-top: 0.9rem; }
+
+  .deliverables { padding: 4rem 1.25rem; }
 
   .takeaway {
     margin-top: 3rem;
@@ -1230,7 +1242,7 @@ body.is-ready .reveal {
     border-radius: 16px;
   }
   .takeaway__lead { margin-bottom: 2rem; }
-  .benefit { flex: 1 1 100%; max-width: none; }
+  .benefit { flex: 1 1 100%; min-width: 0; max-width: none; }
   .benefit:hover { transform: none; }
 
   .method__closing { margin-top: 2.5rem; }

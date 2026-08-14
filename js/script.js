@@ -1,12 +1,13 @@
 /* ==========================================================================
    FLORESER — Consultoria de Imagem & Posicionamento Estratégico
-   Scripts da Hero Section
+   Scripts da página
    --------------------------------------------------------------------------
    01. Animação de entrada
    02. Menu mobile (abrir / fechar / acessibilidade)
-   03. Estado do header ao rolar a página
-   04. Destaque do link da seção ativa
-   05. Scroll suave com fallback
+   03. Destaque do link da seção ativa
+   04. Diferenciais — realce que acompanha a rolagem
+   05. Estado do header ao rolar a página
+   06. Scroll suave e navegação
    ========================================================================== */
 
 (function () {
@@ -156,7 +157,61 @@
 
 
   /* ======================================================================
-     04. ESTADO DO HEADER AO ROLAR
+     04. DIFERENCIAIS — realce que acompanha a rolagem
+     Em telas de toque não existe :hover, então o item mais próximo do
+     centro da tela recebe o mesmo destaque que o mouse daria no desktop.
+     ====================================================================== */
+  var edgeItems = document.querySelectorAll('.edge-item');
+  var edgeTouch = window.matchMedia('(max-width: 980px)');
+
+  function clearEdgeSpotlight() {
+    for (var k = 0; k < edgeItems.length; k++) {
+      edgeItems[k].classList.remove('is-active');
+    }
+  }
+
+  function setEdgeSpotlight(alvo) {
+    for (var k = 0; k < edgeItems.length; k++) {
+      edgeItems[k].classList.toggle('is-active', edgeItems[k] === alvo);
+    }
+  }
+
+  if (edgeItems.length && 'IntersectionObserver' in window) {
+    /* rootMargin monta uma faixa fina na altura de leitura (45% da tela).
+       O item que cruza essa faixa recebe o destaque. Uso IntersectionObserver
+       em vez do handler de scroll porque ele não depende de
+       requestAnimationFrame e não roda código a cada pixel rolado. */
+    var edgeObserver = new IntersectionObserver(function (entries) {
+      if (!edgeTouch.matches) { return; }   // no desktop quem manda é o :hover
+
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          setEdgeSpotlight(entries[i].target);
+          return;
+        }
+      }
+      /* Quando nenhum item cruza a faixa (o vão entre dois itens), o último
+         destacado permanece — sem isso o realce piscaria entre um e outro. */
+    }, { rootMargin: '-45% 0px -55% 0px', threshold: 0 });
+
+    for (var e = 0; e < edgeItems.length; e++) {
+      edgeObserver.observe(edgeItems[e]);
+    }
+
+    // Ao cruzar o breakpoint, limpa o realce que só vale no mobile
+    var onEdgeBreakpoint = function () {
+      if (!edgeTouch.matches) { clearEdgeSpotlight(); }
+    };
+    if (edgeTouch.addEventListener) {
+      edgeTouch.addEventListener('change', onEdgeBreakpoint);
+    } else if (edgeTouch.addListener) {
+      edgeTouch.addListener(onEdgeBreakpoint);   // Safari antigo
+    }
+  }
+
+
+  /* ======================================================================
+     05. ESTADO DO HEADER AO ROLAR
      Aplica fundo translúcido + fio dourado depois do topo da página.
      ====================================================================== */
   var ticking = false;
@@ -183,7 +238,7 @@
 
 
   /* ======================================================================
-     05. SCROLL SUAVE E NAVEGAÇÃO
+     06. SCROLL SUAVE E NAVEGAÇÃO
      ====================================================================== */
   var supportsSmooth = 'scrollBehavior' in document.documentElement.style;
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

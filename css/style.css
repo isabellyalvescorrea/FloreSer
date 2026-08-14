@@ -434,6 +434,10 @@ button:focus-visible {
   color: var(--gold);
 }
 
+/* Última palavra de um título, em dourado — usada nos 10 entregáveis
+   e nos itens dos Diferenciais. */
+.gold-word { color: var(--gold); }
+
 /* Palavra em destaque dentro de um título serifado: sans-serif encorpada
    em dourado. Usada na Hero ("referência."), na Seção 02 ("situações?")
    e na Seção 03 ("Transformação"). */
@@ -1069,7 +1073,136 @@ body.is-ready .reveal {
 }
 
 /* ==========================================================================
-   13. RESPONSIVO
+   13. SEÇÃO 05 — DIFERENCIAIS (layout editorial em split-screen)
+   ========================================================================== */
+.edge {
+  padding: 7rem 2rem;
+  background-color: var(--plum-mid);
+  color: var(--off-white);
+}
+
+/* 40% painel de ancoragem | 60% lista editorial */
+.edge__inner {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Painel esquerdo, fixo durante a rolagem --- */
+.edge__panel {
+  position: sticky;
+  top: 120px;
+  /* Sem o align-self o item esticaria na altura toda da linha e o sticky
+     não teria folga para deslizar. */
+  align-self: start;
+  isolation: isolate;
+}
+
+/* Pérola em marca d'água, atrás do texto do painel */
+.edge__watermark {
+  position: absolute;
+  z-index: -1;
+  top: -2.5rem;
+  right: 0;
+  width: clamp(150px, 16vw, 220px);
+  height: auto;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.edge__tagline {
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.edge__title {
+  font-family: var(--font-title);
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--off-white);
+}
+.edge__title-accent {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.edge__rule {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin-top: 1.8rem;
+}
+
+/* --- Lista editorial: sem cards, só divisores --- */
+.edge__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.edge-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1.2rem, 2.5vw, 2rem);
+  align-items: start;
+  padding: 2.5rem 0;
+  border-top: 1px solid rgba(210, 179, 106, 0.3);
+  transition: border-color 0.35s var(--ease);
+}
+.edge-item:first-child { padding-top: 0; border-top: 0; }
+.edge-item:hover { border-color: rgba(210, 179, 106, 0.55); }
+
+/* Número escultural vazado */
+.edge-item__num {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+  /* Fallback para navegadores sem text-stroke: dourado translúcido.
+     Sem ele, `color: transparent` deixaria o número invisível. */
+  color: rgba(210, 179, 106, 0.4);
+  transition: color 0.35s var(--ease);
+}
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .edge-item__num {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+  }
+}
+/* No hover o contorno se preenche em dourado sólido */
+.edge-item:hover .edge-item__num { color: var(--gold); }
+
+.edge-item__title {
+  margin-bottom: 0.7rem;
+  font-family: var(--font-title);
+  font-size: clamp(1.2rem, 1.6vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--off-white);
+  transition: text-shadow 0.35s var(--ease);
+}
+.edge-item:hover .edge-item__title {
+  text-shadow: 0 0 18px rgba(210, 179, 106, 0.35);
+}
+
+.edge-item__text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+}
+
+
+/* ==========================================================================
+   14. RESPONSIVO
    ========================================================================== */
 
 /* --- Telas baixas no desktop: comprime o suficiente para caber em 100vh --- */
@@ -1264,6 +1397,63 @@ body.is-ready .reveal {
     letter-spacing: 0.8px;
   }
   .btn--gold .btn__label { text-wrap: balance; }
+}
+
+/* --- Diferenciais: o split-screen vira coluna única ---
+   Empilha em 980px (e não em 768px): medido a 800px, a coluna de texto do
+   split 40/60 cai para 36 caracteres por linha, abaixo do mínimo legível de
+   45. O limiar também coincide com o breakpoint mobile do restante do site. */
+@media (max-width: 980px) {
+  .edge { padding: 4rem 1.5rem; }
+
+  .edge__inner {
+    display: block;                  /* desfaz o grid de 2 colunas */
+  }
+
+  /* Painel deixa de acompanhar a rolagem e passa a ser um cabeçalho */
+  .edge__panel {
+    display: block;
+    position: static;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .edge__watermark {
+    top: -1.5rem;
+    right: 50%;
+    transform: translateX(50%);       /* marca d'água centralizada */
+  }
+  .edge__rule {
+    margin-inline: auto;              /* linha decorativa centralizada */
+    max-width: 200px;
+  }
+
+  .edge__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Número acima do título, texto com a largura toda para leitura */
+  .edge-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 2.5rem 0 0;
+  }
+  .edge-item__num { font-size: 2.2rem; }
+  /* Em tablet a largura total daria ~89 caracteres por linha; o teto de 62ch
+     mantém a leitura confortável sem apertar nada no celular. */
+  .edge-item__text { max-width: 62ch; }
+
+  /* Sem hover preso em telas de toque */
+  .edge-item:hover .edge-item__num { color: rgba(210, 179, 106, 0.4); }
+  .edge-item:hover .edge-item__title { text-shadow: none; }
+  .edge-item:hover { border-color: rgba(210, 179, 106, 0.3); }
+}
+@supports (-webkit-text-stroke: 1px currentColor) {
+  @media (max-width: 980px) {
+    .edge-item:hover .edge-item__num { color: transparent; }
+  }
 }
 
 /* --- Celulares --- */

@@ -1097,19 +1097,6 @@ body.is-ready .reveal {
   /* Sem o align-self o item esticaria na altura toda da linha e o sticky
      não teria folga para deslizar. */
   align-self: start;
-  isolation: isolate;
-}
-
-/* Pérola em marca d'água, atrás do texto do painel */
-.edge__watermark {
-  position: absolute;
-  z-index: -1;
-  top: -2.5rem;
-  right: 0;
-  width: clamp(150px, 16vw, 220px);
-  height: auto;
-  opacity: 0.15;
-  pointer-events: none;
 }
 
 .edge__tagline {
@@ -1123,7 +1110,7 @@ body.is-ready .reveal {
 
 .edge__title {
   font-family: var(--font-title);
-  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  font-size: clamp(1.9rem, 2.9vw, 2.5rem);
   font-weight: 400;
   line-height: 1.25;
   letter-spacing: -0.5px;
@@ -1415,13 +1402,9 @@ body.is-ready .reveal {
     display: block;
     position: static;
     width: 100%;
+    padding-top: 3.5rem;              /* respiro generoso para o título */
     text-align: center;
     margin-bottom: 3rem;
-  }
-  .edge__watermark {
-    top: -1.5rem;
-    right: 50%;
-    transform: translateX(50%);       /* marca d'água centralizada */
   }
   .edge__rule {
     margin-inline: auto;              /* linha decorativa centralizada */

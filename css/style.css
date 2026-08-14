@@ -950,6 +950,30 @@ body.is-ready .reveal {
   max-width: 650px;
   margin-bottom: 3.5rem;
 }
+
+/* Destaque dourado do H2 — herda a Playfair Display do título, a mesma
+   fonte serifada da logo do menu. */
+.title-gold { color: var(--gold); }
+
+/* Lockup "pérola + FloreSer?": os dois andam juntos e nunca se separam
+   numa quebra de linha. */
+.title-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Um inline-flex tira a baseline do PRIMEIRO item — aqui, a imagem —, o que
+   subia "FloreSer?" 6,4px acima do resto do título. Este espaço de largura
+   zero entra como primeiro item e devolve a baseline ao texto; a margem
+   negativa anula o gap que ele criaria antes da pérola. */
+.title-brand::before {
+  content: "\200B";
+  margin-right: -10px;
+}
+.title-brand__mark {
+  height: 1.1em;
+  width: auto;
+}
 /* O respiro abaixo já vem do subtítulo; o cabeçalho não repete margem */
 .deliverables .section-head { margin-bottom: 0; }
 

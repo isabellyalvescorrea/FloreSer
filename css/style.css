@@ -935,29 +935,26 @@ body.is-ready .reveal {
 }
 .phase__badge-icon svg { width: 16px; height: 16px; }
 
-/* --- Seção 04: O que você leva (valor & transformação) --- */
+/* --- Seção 04: O que você leva (o acervo completo) --- */
 .deliverables {
   padding: 7rem 2rem;
   background-color: var(--plum-dark);
   color: var(--off-white);
 }
 .deliverables__inner {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
 }
 
 .deliverables__lead {
-  max-width: 650px;
-  margin-bottom: 3.5rem;
+  max-width: 720px;
+  color: var(--off-white);
 }
+/* O respiro abaixo do cabeçalho vem da margem do grid */
+.deliverables .section-head { margin-bottom: 3.5rem; }
 
-/* Destaque dourado do H2 — herda a Playfair Display do título, a mesma
-   fonte serifada da logo do menu. */
-.title-gold { color: var(--gold); }
-
-/* Lockup "pérola + FloreSer?": os dois andam juntos e nunca se separam
-   numa quebra de linha. */
-.title-brand {
+/* Lockup "pérola + FloreSer?" dentro do H2 */
+.logo-title {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -966,91 +963,78 @@ body.is-ready .reveal {
    subia "FloreSer?" 6,4px acima do resto do título. Este espaço de largura
    zero entra como primeiro item e devolve a baseline ao texto; a margem
    negativa anula o gap que ele criaria antes da pérola. */
-.title-brand::before {
+.logo-title::before {
   content: "\200B";
   margin-right: -10px;
 }
-.title-brand__mark {
+.logo-title__mark {
   height: 1.1em;
   width: auto;
 }
-/* O respiro abaixo já vem do subtítulo; o cabeçalho não repete margem */
-.deliverables .section-head { margin-bottom: 0; }
+/* Playfair Display (herdada do H2) em dourado — a mesma serifada da logo */
+.logo-title__word { color: var(--gold); }
 
-/* 5 cards soltos: 3 na primeira linha, 2 centralizados na segunda.
-   O grid de 6 colunas garante largura idêntica nas duas linhas — com
-   flex, os 2 de baixo cresceriam mais que os 3 de cima. */
-.value-grid {
+/* --- Grid de 10 entregáveis: 2 colunas no desktop --- */
+.asset-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.value-card { grid-column: span 2; }
-.value-card:nth-child(4) { grid-column: 2 / span 2; }
-.value-card:nth-child(5) { grid-column: 4 / span 2; }
 
-.value-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2.8rem 2rem;
-  text-align: center;
-  background: linear-gradient(145deg, #3E0033 0%, #280521 100%);
-  border: 1.5px solid rgba(210, 179, 106, 0.35);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.asset-card {
+  padding: 2rem 2.2rem;
+  background: linear-gradient(145deg, #2A0824 0%, #1D102E 100%);
+  border: 1.5px solid rgba(210, 179, 106, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
-.value-card:hover {
-  transform: translateY(-6px);
+.asset-card:hover {
+  transform: translateY(-5px);
   border-color: var(--gold);
-  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.55),
-              0 0 22px rgba(210, 179, 106, 0.2);
+  box-shadow: 0 14px 32px -10px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(210, 179, 106, 0.18);
 }
 
-.value-card__title {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
+.asset-card__num {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-title);
+  font-size: 1.8rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  line-height: 1.3;
-  text-transform: uppercase;
+  line-height: 1;
   color: var(--gold);
 }
 
-/* Linha decorativa (PNG) como divisor entre título e texto */
-.value-card__rule {
-  width: 100%;
-  max-width: 190px;
-  height: auto;
-  margin: 0.9rem 0 1.2rem;
+.asset-card__title {
+  margin-bottom: 0.7rem;
+  font-family: var(--font-title);
+  font-size: clamp(1.1rem, 1.4vw, 1.28rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--off-white);
 }
 
-.value-card__text {
+.asset-card__text {
   font-size: 0.95rem;
   font-weight: 300;
   line-height: 1.7;
   color: var(--ivory-soft);
 }
 
-/* --- Frase de impacto + CTA --- */
+/* --- Frase de impacto final (sem CTA nesta seção) --- */
 .deliverables__closing {
   max-width: 720px;
-  margin: 4rem auto 0;
+  margin: 3.5rem auto 0;
   font-family: var(--font-title);
-  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
   font-weight: 400;
   line-height: 1.5;
   text-align: center;
   color: var(--gold);
-}
-
-.deliverables__cta {
-  margin-top: 2.5rem;
-  text-align: center;
 }
 
 /* --- Frase de fechamento --- */
@@ -1065,13 +1049,8 @@ body.is-ready .reveal {
   color: var(--off-white);
 }
 
-/* --- CTA da seção --- */
-.method__cta {
-  margin-top: 2.5rem;
-  text-align: center;
-}
-
-/* Botão sólido dourado */
+/* Botão sólido dourado — reservado para o CTA final (#proximo-passo).
+   Por decisão de UX, as seções intermediárias não levam botão. */
 .btn--gold {
   padding: 1.2rem 3rem;
   font-size: clamp(0.8rem, 0.95vw, 0.9rem);
@@ -1260,33 +1239,23 @@ body.is-ready .reveal {
 
   /* --- Seção 04: O que você leva --- */
   .deliverables { padding: 4.5rem 1.25rem; }
-  .deliverables__lead { margin-bottom: 2.5rem; }
+  .deliverables .section-head { margin-bottom: 2.5rem; }
 
-  /* Coluna única: anula o posicionamento em 6 colunas do desktop */
-  .value-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-  }
-  .value-card,
-  .value-card:nth-child(4),
-  .value-card:nth-child(5) {
-    grid-column: auto;
-  }
-  .value-card {
-    padding: 2.2rem 1.5rem;
+  /* Os 10 entregáveis empilham em coluna única */
+  .asset-grid { grid-template-columns: minmax(0, 1fr); }
+  .asset-card {
+    padding: 1.8rem 1.5rem;
     border-radius: 16px;
   }
-  .value-card:hover {
+  .asset-card:hover {
     transform: none;                 /* sem elevação presa em telas de toque */
-    border-color: rgba(210, 179, 106, 0.35);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(210, 179, 106, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   }
 
   .deliverables__closing { margin-top: 3rem; }
-  .deliverables__cta { margin-top: 2rem; }
 
   .method__closing { margin-top: 2.5rem; }
-  .method__cta { margin-top: 2rem; }
 
   /* O rótulo é longo: em tela estreita ele quebra em vez de estourar */
   .btn--gold {

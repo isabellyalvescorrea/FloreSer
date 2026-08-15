@@ -35,6 +35,10 @@
   --ivory-faint: rgba(247, 243, 236, 0.42);
   --plum-deepest:#2B0025;  /* tom intermediário para separar as seções */
 
+  /* Fundo único de toda a página, desktop e mobile. As seções deixaram de
+     alternar cores: todas usam este valor. */
+  --page-bg:     #5A0034;
+
   /* --- Tipografia --- */
   --font-title: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body:  'Montserrat', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -81,7 +85,7 @@ body {
   font-family: var(--font-body);
   font-weight: 400;
   color: var(--off-white);
-  background-color: var(--plum-mid);
+  background-color: var(--page-bg);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -147,11 +151,11 @@ button:focus-visible {
   transition: background-color var(--t-med), backdrop-filter var(--t-med);
 }
 
-/* Ao rolar, o header ganha fundo sólido — a COR é definida pelo JS, que
-   copia o fundo da seção que está passando por baixo dele. Sem isso, um
-   fundo fixo viraria uma faixa de cor destoante nas seções em #1D102E. */
+/* Ao rolar, o header ganha fundo sólido. O JS ainda copia a cor da seção
+   sob ele — hoje todas usam --page-bg, mas isso mantém o header correto
+   caso alguma seção volte a ter fundo próprio. */
 .header.is-scrolled {
-  background-color: var(--plum-mid);   /* usada só se o JS não rodar */
+  background-color: var(--page-bg);
 }
 
 .header__inner {
@@ -301,7 +305,7 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
   align-items: center;
   justify-content: center;
   padding: var(--header-h) 28px 40px;
-  background-color: var(--plum-mid);   /* sólido, sem degradê */
+  background-color: var(--page-bg);   /* sólido, sem degradê */
   opacity: 0;
   visibility: hidden;
   /* Entrada por escala para DENTRO: com o translateX anterior a gaveta
@@ -372,7 +376,7 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
   isolation: isolate;
 
   /* Cor sólida pura — sem gradiente, vinheta ou halo de ambiente */
-  background-color: var(--plum-mid);
+  background-color: var(--page-bg);
 }
 
 /* Ramo botânico em linha (canto inferior esquerdo) */
@@ -517,7 +521,9 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
 
 .btn--primary {
   color: var(--off-white);
-  background-color: var(--plum-accent);   /* sólido, sem degradê */
+  /* Mais escuro que o fundo da página (#5A0034), senão o botão sumiria e
+     só a borda dourada apareceria. */
+  background-color: var(--plum-deepest);
   border: 2px solid var(--gold);          /* borda dourada bem marcada */
   box-shadow: 0 0 15px rgba(210, 179, 106, 0.25);
 }
@@ -638,11 +644,11 @@ body.is-ready .reveal {
   place-items: center;
   min-height: 62vh;
   padding: clamp(56px, 9vh, 110px) var(--gutter);
-  background: var(--plum-dark);
+  background: var(--page-bg);
   border-top: 1px solid rgba(210, 179, 106, 0.1);
 }
 /* Alterna o tom de fundo para separar visualmente as seções */
-.section-placeholder:nth-of-type(even) { background: var(--plum-deepest); }
+.section-placeholder:nth-of-type(even) { background: var(--page-bg); }
 
 .section-placeholder__label {
   font-family: var(--font-title);
@@ -658,7 +664,7 @@ body.is-ready .reveal {
    ========================================================================== */
 .challenge {
   padding: 6rem 2rem;
-  background-color: var(--plum-dark);
+  background-color: var(--page-bg);
   color: var(--off-white);
 }
 
@@ -773,7 +779,8 @@ body.is-ready .reveal {
   margin: 3.5rem auto 0;
   padding: 2.5rem 2rem;
   text-align: center;
-  background-color: var(--plum-accent);
+  /* Mais escuro que o fundo da página para o banner continuar destacado */
+  background-color: var(--plum-deepest);
   border: 1.5px solid var(--gold);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -801,7 +808,7 @@ body.is-ready .reveal {
    ========================================================================== */
 .method {
   padding: 7rem 2rem;
-  background-color: var(--plum-mid);
+  background-color: var(--page-bg);
   color: var(--off-white);
 }
 
@@ -975,7 +982,7 @@ body.is-ready .reveal {
 /* --- Seção 04: O que você leva (o acervo completo) --- */
 .deliverables {
   padding: 7rem 2rem;
-  background-color: var(--plum-dark);
+  background-color: var(--page-bg);
   color: var(--off-white);
 }
 .deliverables__inner {
@@ -1114,7 +1121,7 @@ body.is-ready .reveal {
    ========================================================================== */
 .edge {
   padding: 7rem 2rem;
-  background-color: var(--plum-mid);
+  background-color: var(--page-bg);
   color: var(--off-white);
 }
 
@@ -1230,7 +1237,7 @@ body.is-ready .reveal {
    ========================================================================== */
 .about {
   padding: 7rem 2rem;
-  background-color: var(--plum-dark);
+  background-color: var(--page-bg);
   color: var(--off-white);
 }
 
@@ -1603,7 +1610,15 @@ body.is-ready .reveal {
 
   /* Ordem no mobile: o leitor recebe o contexto antes do retrato, em vez
      de abrir a seção com uma foto de tela cheia. */
-  .about__tagline   { order: 1; text-align: center; }
+  /* Subordinada ao manifesto: menor e com espacejamento mais contido,
+     para não competir com o título logo abaixo. */
+  .about__tagline {
+    order: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 1.8px;
+    margin-bottom: 1.1rem;
+  }
 
   /* Manifesto em corpo de título, centralizado e com as quebras fixas
      de .br-mob — sem `balance`, que brigaria com as quebras manuais. */
@@ -1633,7 +1648,11 @@ body.is-ready .reveal {
     width: min(72%, 280px);
     margin: 0 auto 2.5rem;
   }
-  .about__figure::before { inset: 14px -14px -14px 14px; }
+  /* Moldura fora no celular. Além do pedido, ela era um bug: com a figura
+     em `position: static` o ::before absoluto se ancorava na SEÇÃO, virando
+     um retângulo dourado em volta da tela toda — e o inset negativo à
+     direita ainda vazava 14px para fora, causando rolagem lateral. */
+  .about__figure::before { display: none; }
 
   /* Nome e linha decorativa formam um bloco só, centralizado e com mais
      respiro — antes a linha ficava estreita e solta logo abaixo do nome. */
@@ -1641,9 +1660,8 @@ body.is-ready .reveal {
     text-align: center;
     text-wrap: balance;
   }
-  /* No celular a linha decorativa sai de cena: o nome já tem respiro
-     suficiente e ela competia com o texto. */
-  .about__rule { display: none; }
+  /* Linha decorativa abaixo do nome, centralizada e proporcional */
+  .about__rule { display: block; margin: 1rem auto 1.8rem; max-width: 200px; }
 
   /* Fecho centralizado: sem o fio à esquerda, que puxava o bloco para o
      lado e brigava com o alinhamento central do restante. */

@@ -6,8 +6,9 @@
    02. Menu mobile (abrir / fechar / acessibilidade)
    03. Destaque do link da seção ativa
    04. Diferenciais — realce que acompanha a rolagem
-   05. Estado do header ao rolar a página
-   06. Scroll suave e navegação
+   05. Troca de logo na seção Sobre
+   06. Estado do header ao rolar a página
+   07. Scroll suave e navegação
    ========================================================================== */
 
 (function () {
@@ -211,7 +212,29 @@
 
 
   /* ======================================================================
-     05. ESTADO DO HEADER AO ROLAR
+     05. TROCA DE LOGO NA SEÇÃO SOBRE
+     Ao entrar em #sobre o header exibe a marca da consultora; ao sair,
+     volta à pérola do FloreSer. A troca é instantânea (visibility), e os
+     dois lockups já estão no HTML — não há requisição no momento da troca.
+     ====================================================================== */
+  var aboutSection = document.getElementById('sobre');
+
+  if (aboutSection && 'IntersectionObserver' in window) {
+    var aboutObserver = new IntersectionObserver(function (entries) {
+      body.classList.toggle('is-about', entries[0].isIntersecting);
+    }, {
+      /* Faixa central: a marca troca quando a seção domina a tela, e não
+         no instante em que a primeira linha aparece na borda inferior. */
+      rootMargin: '-45% 0px -45% 0px',
+      threshold: 0
+    });
+
+    aboutObserver.observe(aboutSection);
+  }
+
+
+  /* ======================================================================
+     06. ESTADO DO HEADER AO ROLAR
      Aplica fundo translúcido + fio dourado depois do topo da página.
      ====================================================================== */
   var ticking = false;
@@ -238,7 +261,7 @@
 
 
   /* ======================================================================
-     06. SCROLL SUAVE E NAVEGAÇÃO
+     07. SCROLL SUAVE E NAVEGAÇÃO
      ====================================================================== */
   var supportsSmooth = 'scrollBehavior' in document.documentElement.style;
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -46,11 +46,23 @@
         </ul>
       </nav>
 
-      <!-- Logo central (marca + assinatura tipográfica) -->
+      <!-- Logo central. Os dois lockups ocupam a MESMA célula do grid: a
+           largura do bloco é sempre a do maior, então a troca na seção Sobre
+           acontece sem empurrar os links do menu. -->
       <a class="brand" href="#inicio" aria-label="FloreSer — página inicial">
-        <img class="brand__mark" src="assets/images/logo-mark.png"
-             alt="" width="575" height="416" aria-hidden="true">
-        <span class="brand__name">FloreSer</span>
+        <span class="brand__lockup brand__lockup--floreser">
+          <img class="brand__mark" src="assets/images/logo-mark.png"
+               alt="" width="575" height="416" aria-hidden="true">
+          <span class="brand__name">FloreSer</span>
+        </span>
+
+        <!-- PROVISÓRIO: aguardando o arquivo da logo da consultora.
+             Assim que ele chegar, este lockup vira uma única <img>. -->
+        <span class="brand__lockup brand__lockup--consultora" aria-hidden="true">
+          <img class="brand__mark" src="assets/images/logo-mark.png"
+               alt="" width="575" height="416">
+          <span class="brand__name brand__name--consultora">Fernanda Delizia</span>
+        </span>
       </a>
 
       <!-- Navegação direita (desktop) -->
@@ -730,9 +742,79 @@
       </div>
     </section>
 
-    <!-- 06. SOBRE -->
-    <section id="sobre" class="section section-placeholder" aria-label="Sobre">
-      <span class="section-placeholder__label">Sobre</span>
+    <!-- ==========================================================
+         06. SOBRE — Fernanda Delizia
+    =========================================================== -->
+    <section id="sobre" class="section about" aria-labelledby="sobre-titulo">
+      <div class="about__inner">
+
+        <!-- ---------- Retrato ---------- -->
+        <figure class="about__figure">
+          <img class="about__photo" src="assets/images/fernanda-sobre.jpg"
+               alt="Fernanda Delizia, consultora de imagem e estilo"
+               width="1200" height="1599" loading="lazy" decoding="async">
+        </figure>
+
+        <!-- ---------- Texto ---------- -->
+        <div class="about__content">
+
+          <p class="about__tagline">Quem conduz o método</p>
+
+          <!-- Manifesto: as duas primeiras frases funcionam como abertura -->
+          <p class="about__manifesto">
+            Eu não ensino você a parecer alguém.<br>
+            Eu ensino você a <span class="gold-word">revelar quem você é.</span>
+          </p>
+
+          <h2 class="about__title" id="sobre-titulo">
+            Sou <span class="about__name">Fernanda Delizia</span>
+          </h2>
+
+          <img class="about__rule" src="assets/images/linha-decorativa.png"
+               alt="" width="676" height="55" aria-hidden="true" loading="lazy">
+
+          <p class="about__text">
+            Consultora de imagem e estilo, com formação internacional e
+            especialização em cores, desenvolvida a partir de uma abordagem
+            própria e exclusiva.
+          </p>
+
+          <p class="about__text">
+            Ao longo da minha trajetória, percebi que muitas mulheres não
+            precisam de mais referências de moda. Elas precisam de
+            <strong class="about__strong">clareza</strong>.
+          </p>
+
+          <!-- Os três eixos da clareza, destacados para leitura em varredura -->
+          <ul class="about__clarity">
+            <li>o que valoriza sua beleza</li>
+            <li>o que comunica sua personalidade</li>
+            <li>o que faz sentido para sua rotina</li>
+          </ul>
+
+          <p class="about__text">
+            E, principalmente, sobre como transformar tudo isso em uma imagem
+            coerente com a mulher que se tornou.
+          </p>
+
+          <p class="about__text">
+            Foi dessa visão que nasceu o
+            <strong class="about__strong">FloreSer</strong>, método que criei
+            para conduzir mulheres por um processo que vai muito além de roupas
+            e tendências. Nele, cor, estilo, proporção, escolhas e
+            posicionamento deixam de ser informações isoladas e passam a
+            construir uma imagem com intenção.
+          </p>
+
+          <!-- Fecho em destaque: a frase-síntese da consultora -->
+          <blockquote class="about__quote">
+            Porque acredito que sua imagem não deve criar uma personagem.
+            Ela deve revelar, com clareza, a mulher que já existe em você.
+          </blockquote>
+
+        </div>
+
+      </div>
     </section>
 
     <!-- 07. DEPOIMENTOS -->

@@ -321,25 +321,33 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(22px, 5vh, 40px);
+  gap: clamp(18px, 3vh, 28px);
   width: 100%;
 }
 
+/* Lista como bloco fechado e centrado: largura limitada, itens colados uns
+   nos outros e separados por um fio dourado — em vez de linhas soltas
+   espalhadas pela altura da tela. */
 .mobile-menu__list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: clamp(14px, 2.6vh, 22px);
+  align-items: stretch;
+  gap: 0;
   width: 100%;
+  max-width: 300px;
+  border-top: 1px solid rgba(210, 179, 106, 0.18);
+}
+.mobile-menu__list li {
+  border-bottom: 1px solid rgba(210, 179, 106, 0.18);
 }
 
 .mobile-menu__link {
   display: block;
   /* Padding vertical generoso para o link cumprir o alvo mínimo de toque
      de 44px — com 4px ele ficava em 40px. */
-  padding: 10px 12px;
+  padding: clamp(11px, 1.5vh, 16px) 12px;
   font-family: var(--font-title);
-  font-size: clamp(1.15rem, 5.4vw, 1.5rem);
+  font-size: clamp(1.05rem, 4.6vw, 1.3rem);
   font-weight: 400;
   letter-spacing: 0.4px;
   color: var(--off-white);
@@ -353,9 +361,9 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
 }
 
 .mobile-menu__ornament {
-  width: 62px;
+  width: 48px;
   height: auto;
-  opacity: 0.65;
+  opacity: 0.5;
 }
 
 
@@ -482,15 +490,17 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
 }
 
 /* "referência" da Hero: imagem no lugar do texto.
-   - altura 0.957em faz a altura-x da imagem bater com a da Playfair;
-   - vertical-align -0.183em põe a baseline da palavra na linha do texto
-     (19,1% da imagem fica abaixo da baseline, por causa da cedilha). */
+   - 0.957em igualaria a altura-x à da Playfair; 1.1em dá à palavra o
+     destaque de assinatura que ela deve ter;
+   - o vertical-align acompanha a altura: 19,14% da imagem fica abaixo da
+     baseline (a cedilha), então -0.1914 × 1.1 = -0.211em mantém a palavra
+     assentada na mesma linha do texto ao lado. */
 .hero__word {
   display: inline-block;
-  height: 0.957em;
+  height: 1.1em;
   width: auto;
   max-width: 100%;
-  vertical-align: -0.183em;
+  vertical-align: -0.211em;
 }
 
 /* --- Texto de apoio --- */
@@ -1785,6 +1795,14 @@ body.is-ready .reveal {
 @media (max-width: 360px) {
   :root { --arch-w: 74vw; }
   .brand__name { font-size: 1.2rem; }
+
+  /* Em telas muito estreitas o padding dos cards + a barra dourada comiam
+     ~68px da linha, derrubando a leitura para menos de 20 caracteres. */
+  .phase       { padding: 1.9rem 1.1rem; }
+  .phase__block { padding-left: 0.8rem; }
+  .phase__badge { padding: 0.6rem 0.8rem; }
+  .asset-card  { padding: 1.6rem 1.1rem; }
+  .pain-card   { padding: 1.7rem 1.1rem; }
   .btn {
     gap: 10px;
     padding: 1rem 0.9rem;

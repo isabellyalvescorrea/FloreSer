@@ -70,6 +70,9 @@ html {
   scroll-behavior: smooth;
   /* Impede que o header fixo cubra o topo da seção alvo (+ respiro) */
   scroll-padding-top: calc(var(--header-h) + 12px);
+  /* Trava a rolagem lateral também no <html>: só no <body> não basta,
+     porque elementos com position:fixed escapam do clip do body. */
+  overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -301,13 +304,16 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
   background-color: var(--plum-mid);   /* sólido, sem degradê */
   opacity: 0;
   visibility: hidden;
-  transform: translateX(12%);
+  /* Entrada por escala para DENTRO: com o translateX anterior a gaveta
+     fechada ficava ~49px além da borda direita e podia gerar rolagem
+     horizontal no celular. Escala menor que 1 nunca ultrapassa a tela. */
+  transform: scale(0.98);
   transition: opacity var(--t-med), transform var(--t-med), visibility var(--t-med);
 }
 .mobile-menu.is-open {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
+  transform: scale(1);
 }
 
 .mobile-menu__nav {
@@ -1491,9 +1497,18 @@ body.is-ready .reveal {
   .hero__branch { width: 130px; opacity: 0.1; }
 
   /* --- Seção 02: O Desafio --- */
-  .challenge { padding: 4rem 1.25rem; }
+  .challenge { padding: 4rem 1.5rem; }
 
   .section-head { margin-bottom: 2.5rem; }
+
+  /* Títulos menores no celular: em 2rem+ as frases quebravam em pedaços
+     curtos e a hierarquia ficava confusa. */
+  .section-head__title,
+  .section-head__title--lg {
+    font-size: clamp(1.5rem, 6.2vw, 1.85rem);
+    text-wrap: balance;
+  }
+  .section-head__lead { text-wrap: pretty; }
 
   /* Cards empilhados em coluna única */
   .pain-grid {
@@ -1512,7 +1527,7 @@ body.is-ready .reveal {
   }
 
   /* --- Seção 03: O Método --- */
-  .method { padding: 4.5rem 1.25rem; }
+  .method { padding: 4.5rem 1.5rem; }
 
   /* Fases empilhadas em ordem cronológica (01 → 04) */
   .phases {
@@ -1542,7 +1557,7 @@ body.is-ready .reveal {
   .phase__rule { max-width: 240px; margin-top: 0.9rem; }
 
   /* --- Seção 04: O que você leva --- */
-  .deliverables { padding: 4.5rem 1.25rem; }
+  .deliverables { padding: 4.5rem 1.5rem; }
   .deliverables .section-head { margin-bottom: 2.5rem; }
 
   /* Os 10 entregáveis empilham em coluna única */
@@ -1572,7 +1587,7 @@ body.is-ready .reveal {
 
 /* --- Sobre: retrato acima do texto --- */
 @media (max-width: 980px) {
-  .about { padding: 4.5rem 1.25rem; }
+  .about { padding: 4.5rem 1.5rem; }
 
   .about__inner {
     grid-template-columns: minmax(0, 1fr);
@@ -1615,7 +1630,8 @@ body.is-ready .reveal {
     text-align: center;
     text-wrap: balance;
   }
-  .about__rule { margin: 1.4rem auto 2.2rem; max-width: 260px; }
+  /* Linha proporcional ao texto no celular: 200px com margens iguais */
+  .about__rule { margin: 1rem auto; max-width: 200px; }
   .about__quote { padding-left: 1.2rem; }
 }
 
@@ -1640,9 +1656,10 @@ body.is-ready .reveal {
     margin-bottom: 3rem;
   }
   .edge__rule {
-    margin-inline: auto;              /* linha decorativa centralizada */
+    margin: 1rem auto;                /* linha decorativa centralizada */
     max-width: 200px;
   }
+  .edge__title { font-size: clamp(1.5rem, 6.2vw, 1.85rem); text-wrap: balance; }
 
   .edge__list {
     display: flex;

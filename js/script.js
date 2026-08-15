@@ -235,13 +235,32 @@
 
   /* ======================================================================
      06. ESTADO DO HEADER AO ROLAR
-     Aplica fundo translúcido + fio dourado depois do topo da página.
+     Fundo sólido + fio dourado depois do topo da página. A cor do fundo
+     acompanha a seção que está sob o header: as seções alternam entre
+     #3E0033 e #1D102E, e um fundo fixo viraria uma faixa destoante em
+     metade delas.
      ====================================================================== */
   var ticking = false;
 
+  /** Cor de fundo da seção que está passando sob o header. */
+  function toneUnderHeader() {
+    var line = (header ? header.offsetHeight : 0) / 2;
+    for (var i = 0; i < sections.length; i++) {
+      var b = sections[i].getBoundingClientRect();
+      if (b.top <= line && b.bottom > line) {
+        return window.getComputedStyle(sections[i]).backgroundColor;
+      }
+    }
+    return '';
+  }
+
   function onScrollFrame() {
     if (header) {
-      header.classList.toggle('is-scrolled', window.scrollY > SCROLLED_OFFSET);
+      var rolou = window.scrollY > SCROLLED_OFFSET;
+      header.classList.toggle('is-scrolled', rolou);
+      // No topo o header é transparente sobre a Hero; daí em diante, sólido
+      // na cor exata da seção de baixo.
+      header.style.backgroundColor = rolou ? toneUnderHeader() : '';
     }
     updateActiveSection();
     ticking = false;

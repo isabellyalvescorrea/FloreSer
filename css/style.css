@@ -144,9 +144,11 @@ button:focus-visible {
   transition: background-color var(--t-med), backdrop-filter var(--t-med);
 }
 
-/* Fundo sólido só depois que a página começa a rolar */
+/* Ao rolar, o header ganha fundo sólido — a COR é definida pelo JS, que
+   copia o fundo da seção que está passando por baixo dele. Sem isso, um
+   fundo fixo viraria uma faixa de cor destoante nas seções em #1D102E. */
 .header.is-scrolled {
-  background-color: var(--plum-mid);
+  background-color: var(--plum-mid);   /* usada só se o JS não rodar */
 }
 
 .header__inner {
@@ -214,6 +216,8 @@ button:focus-visible {
 /* --- Logo central (marca + assinatura) --- */
 .brand {
   display: grid;                   /* os dois lockups dividem a mesma célula */
+  align-content: center;
+  min-height: 44px;                /* alvo mínimo de toque */
   transition: opacity var(--t-fast);
 }
 .brand:hover { opacity: 0.86; }
@@ -324,7 +328,9 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
 
 .mobile-menu__link {
   display: block;
-  padding: 4px 8px;
+  /* Padding vertical generoso para o link cumprir o alvo mínimo de toque
+     de 44px — com 4px ele ficava em 40px. */
+  padding: 10px 12px;
   font-family: var(--font-title);
   font-size: clamp(1.15rem, 5.4vw, 1.5rem);
   font-weight: 400;
@@ -665,7 +671,9 @@ body.is-ready .reveal {
 .section-head__tagline {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  font-size: clamp(0.62rem, 0.78vw, 0.75rem);
+  /* Piso em 0.7rem (11.2px): abaixo disso a caixa-alta com letter-spacing
+     larga fica desconfortável de ler no celular. */
+  font-size: clamp(0.7rem, 0.78vw, 0.75rem);
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -1050,6 +1058,8 @@ body.is-ready .reveal {
 
 /* --- Frase de impacto final (sem CTA nesta seção) --- */
 .deliverables__closing {
+  /* Evita a ultima linha com uma palavra so */
+  text-wrap: balance;
   max-width: 720px;
   margin: 3.5rem auto 0;
   font-family: var(--font-title);
@@ -1062,6 +1072,8 @@ body.is-ready .reveal {
 
 /* --- Frase de fechamento --- */
 .method__closing {
+  /* Evita a ultima linha com uma palavra so */
+  text-wrap: balance;
   max-width: 780px;
   margin: 3.5rem auto 0;
   font-family: var(--font-title);
@@ -1336,6 +1348,8 @@ body.is-ready .reveal {
 
 /* Fecho: a frase-síntese, destacada por um fio dourado à esquerda */
 .about__quote {
+  /* Evita a ultima linha com uma palavra so */
+  text-wrap: balance;
   margin: 2.2rem 0 0;
   padding-left: 1.6rem;
   border-left: 2px solid var(--gold);
@@ -1436,8 +1450,9 @@ body.is-ready .reveal {
     width: auto;
     margin-inline: auto;
     padding-bottom: 14px;
-    font-size: 0.62rem;
-    letter-spacing: 2.6px;
+    /* 0.62rem dava 9.9px — pequeno demais para leitura em celular */
+    font-size: 0.7rem;
+    letter-spacing: 2.4px;
   }
   /* Sob texto centralizado, o traço esmaece dos dois lados */
   .hero__tagline::after {
@@ -1514,6 +1529,13 @@ body.is-ready .reveal {
                 inset 0 1px 1px rgba(210, 179, 106, 0.2);
     border-color: rgba(210, 179, 106, 0.4);
   }
+  /* O nome da fase quebra em duas linhas no celular e o travessão ficava
+     pendurado no início da segunda ("—Semente"). Some com ele e empilha
+     número sobre nome. */
+  .phase__name { display: block; }
+  .phase__sep { display: none; }
+  .phase__num { display: block; margin-bottom: 0.2rem; }
+
   .phase__concept { font-size: 0.95rem; line-height: 1.7; }
   .phase__badge { padding: 0.6rem 1rem; }
   .phase__ornament { width: 95%; margin: 1.2rem auto 1.4rem; }
@@ -1564,7 +1586,14 @@ body.is-ready .reveal {
   /* Ordem no mobile: o leitor recebe o contexto antes do retrato, em vez
      de abrir a seção com uma foto de tela cheia. */
   .about__tagline   { order: 1; }
-  .about__manifesto { order: 2; margin-bottom: 2rem; font-size: clamp(1.2rem, 5.4vw, 1.55rem); }
+  /* `balance` distribui as linhas e evita a última palavra sozinha —
+     sem ele, "alguém." e "é." ficavam órfãs em linhas próprias. */
+  .about__manifesto {
+    order: 2;
+    margin-bottom: 2rem;
+    font-size: clamp(1.15rem, 5vw, 1.45rem);
+    text-wrap: balance;
+  }
   .about__figure    { order: 3; }
   .about__title     { order: 4; }
   .about__rule      { order: 5; }
@@ -1580,8 +1609,13 @@ body.is-ready .reveal {
   }
   .about__figure::before { inset: 14px -14px -14px 14px; }
 
-  .about__title { text-align: center; }
-  .about__rule  { margin: 1rem auto 1.8rem; max-width: 200px; }
+  /* Nome e linha decorativa formam um bloco só, centralizado e com mais
+     respiro — antes a linha ficava estreita e solta logo abaixo do nome. */
+  .about__title {
+    text-align: center;
+    text-wrap: balance;
+  }
+  .about__rule { margin: 1.4rem auto 2.2rem; max-width: 260px; }
   .about__quote { padding-left: 1.2rem; }
 }
 

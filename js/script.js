@@ -158,11 +158,14 @@
 
 
   /* ======================================================================
-     04. DIFERENCIAIS — realce que acompanha a rolagem
-     Em telas de toque não existe :hover, então o item mais próximo do
-     centro da tela recebe o mesmo destaque que o mouse daria no desktop.
+     04. REALCE QUE ACOMPANHA A ROLAGEM
+     Em telas de toque não existe :hover. Todo bloco que tem destaque no
+     mouse recebe, no celular, a classe .is-active quando cruza a linha de
+     leitura — cards do Desafio, fases do Método, entregáveis e diferenciais.
      ====================================================================== */
-  var edgeItems = document.querySelectorAll('.edge-item');
+  var edgeItems = document.querySelectorAll(
+    '.edge-item, .pain-card, .phase, .asset-card'
+  );
   var edgeTouch = window.matchMedia('(max-width: 980px)');
 
   function clearEdgeSpotlight() {

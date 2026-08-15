@@ -470,19 +470,27 @@ body.is-about .brand__lockup--consultora { visibility: visible; }
    e nos itens dos Diferenciais. */
 .gold-word { color: var(--gold); }
 
-/* Palavra em destaque dentro de um título serifado: sans-serif encorpada
-   em dourado. Usada na Hero ("referência."), na Seção 02 ("situações?")
-   e na Seção 03 ("Transformação"). */
+/* Palavra em destaque dentro de um título: mesma Playfair Display do
+   restante, só que em dourado. Usada em "situações?" (Seção 02) e
+   "Transformação" (Seção 03). */
 .highlight-word,
 .gold-bold {
-  font-family: var(--font-body);
-  /* A Montserrat tem altura-x maior que a Playfair (38px contra 36px no
-     mesmo corpo); 0.92em iguala as duas opticamente. */
-  font-size: 0.92em;
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: -0.5px;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
   color: var(--gold);
+}
+
+/* "referência" da Hero: imagem no lugar do texto.
+   - altura 0.957em faz a altura-x da imagem bater com a da Playfair;
+   - vertical-align -0.183em põe a baseline da palavra na linha do texto
+     (19,1% da imagem fica abaixo da baseline, por causa da cedilha). */
+.hero__word {
+  display: inline-block;
+  height: 0.957em;
+  width: auto;
+  max-width: 100%;
+  vertical-align: -0.183em;
 }
 
 /* --- Texto de apoio --- */
@@ -1522,8 +1530,15 @@ body.is-ready .reveal {
   }
   .pain-card { padding: 1.9rem 1.5rem; }
 
-  /* Sem hover em toque: só o realce da borda ao tocar */
-  .pain-card:hover { transform: none; box-shadow: none; }
+  /* Em toque o :hover fica preso; quem realça é .is-active, aplicada
+     pelo JS ao card que cruza a linha de leitura durante a rolagem. */
+  .pain-card:hover { transform: none; box-shadow: none; border-color: rgba(210, 179, 106, 0.3); }
+  .pain-card.is-active {
+    transform: translateY(-5px);
+    border-color: rgba(210, 179, 106, 0.7);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.55),
+                0 0 22px rgba(210, 179, 106, 0.18);
+  }
 
   .diagnosis {
     margin-top: 2.5rem;
@@ -1549,6 +1564,14 @@ body.is-ready .reveal {
                 inset 0 1px 1px rgba(210, 179, 106, 0.2);
     border-color: rgba(210, 179, 106, 0.4);
   }
+  .phase.is-active {
+    transform: translateY(-8px);
+    border-color: rgba(210, 179, 106, 0.8);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(210, 179, 106, 0.2),
+                inset 0 1px 1px rgba(210, 179, 106, 0.3);
+  }
+  .phase.is-active::before { opacity: 1; }
   /* O nome da fase quebra em duas linhas no celular e o travessão ficava
      pendurado no início da segunda ("—Semente"). Some com ele e empilha
      número sobre nome. */
@@ -1575,6 +1598,12 @@ body.is-ready .reveal {
     transform: none;                 /* sem elevação presa em telas de toque */
     border-color: rgba(210, 179, 106, 0.3);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  }
+  .asset-card.is-active {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 14px 32px -10px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(210, 179, 106, 0.18);
   }
 
   .deliverables__closing { margin-top: 3rem; }

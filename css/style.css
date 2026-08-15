@@ -1311,6 +1311,9 @@ body.is-ready .reveal {
   margin: 1.2rem 0 2rem;
 }
 
+/* Quebras do manifesto: cada uma vale em uma tela só */
+.br-mob { display: none; }
+
 .about__text {
   margin-bottom: 1.4rem;
   font-size: clamp(0.95rem, 1.1vw, 1.05rem);
@@ -1600,15 +1603,23 @@ body.is-ready .reveal {
 
   /* Ordem no mobile: o leitor recebe o contexto antes do retrato, em vez
      de abrir a seção com uma foto de tela cheia. */
-  .about__tagline   { order: 1; }
-  /* `balance` distribui as linhas e evita a última palavra sozinha —
-     sem ele, "alguém." e "é." ficavam órfãs em linhas próprias. */
+  .about__tagline   { order: 1; text-align: center; }
+
+  /* Manifesto em corpo de título, centralizado e com as quebras fixas
+     de .br-mob — sem `balance`, que brigaria com as quebras manuais. */
+  /* 5.75vw é o maior corpo em que a 2ª linha ("parecer alguém. Eu ensino
+     você", a mais longa) mantém ~25px de folga. Acima disso ela encosta na
+     borda e qualquer variação de fonte a quebraria numa 4ª linha. */
   .about__manifesto {
     order: 2;
     margin-bottom: 2rem;
-    font-size: clamp(1.15rem, 5vw, 1.45rem);
-    text-wrap: balance;
+    font-size: min(5.75vw, 1.75rem);
+    line-height: 1.35;
+    text-align: center;
+    text-wrap: initial;
   }
+  .br-mob  { display: inline; }
+  .br-desk { display: none; }
   .about__figure    { order: 3; }
   .about__title     { order: 4; }
   .about__rule      { order: 5; }
@@ -1630,9 +1641,18 @@ body.is-ready .reveal {
     text-align: center;
     text-wrap: balance;
   }
-  /* Linha proporcional ao texto no celular: 200px com margens iguais */
-  .about__rule { margin: 1rem auto; max-width: 200px; }
-  .about__quote { padding-left: 1.2rem; }
+  /* No celular a linha decorativa sai de cena: o nome já tem respiro
+     suficiente e ela competia com o texto. */
+  .about__rule { display: none; }
+
+  /* Fecho centralizado: sem o fio à esquerda, que puxava o bloco para o
+     lado e brigava com o alinhamento central do restante. */
+  .about__quote {
+    padding-left: 0;
+    border-left: 0;
+    text-align: center;
+    margin-inline: auto;
+  }
 }
 
 /* --- Diferenciais: o split-screen vira coluna única ---
@@ -1708,6 +1728,13 @@ body.is-ready .reveal {
   .hero { padding: calc(var(--header-h) + 14px) 0 34px; }
   .hero__inner { gap: 22px; }
   .btn { gap: 14px; }
+}
+
+/* Abaixo de 360px a 2ª linha do manifesto não cabe em corpo de título.
+   Solta as quebras fixas e deixa o texto refluir equilibrado. */
+@media (max-width: 359px) {
+  .br-mob { display: none; }
+  .about__manifesto { text-wrap: balance; }
 }
 
 /* --- Celulares muito pequenos (≤ 360px) ---

@@ -759,9 +759,14 @@
           <p class="about__tagline">Quem conduz o método</p>
 
           <!-- Manifesto: as duas primeiras frases funcionam como abertura -->
+          <!-- Quebras distintas por tela: no desktop uma linha por frase;
+               no celular, três linhas equilibradas que cortam no meio das
+               frases (.br-mob aparece só no mobile, .br-desk só no desktop). -->
           <p class="about__manifesto">
-            Eu não ensino você a parecer alguém.<br>
-            Eu ensino você a <span class="gold-word">revelar quem você é.</span>
+            Eu não ensino você a<br class="br-mob">
+            parecer alguém.<br class="br-desk">
+            Eu ensino você<br class="br-mob">
+            a <span class="gold-word">revelar quem você é.</span>
           </p>
 
           <h2 class="about__title" id="sobre-titulo">

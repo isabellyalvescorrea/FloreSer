@@ -5,11 +5,13 @@
    01. Animação de entrada
    02. Menu mobile (abrir / fechar / acessibilidade)
    03. Destaque do link da seção ativa
-   04. Diferenciais — realce que acompanha a rolagem
+   04. Realce que acompanha a rolagem
    05. Depoimentos em vídeo — carregamento sob demanda
-   06. Troca de logo na seção Sobre
-   07. Estado do header ao rolar a página
-   08. Scroll suave e navegação
+   06. Entrada por rolagem — blocos [data-enter]
+   07. Ano do rodapé
+   08. Troca de logo na seção Sobre
+   09. Estado do header ao rolar a página
+   10. Scroll suave e navegação
    ========================================================================== */
 
 (function () {
@@ -165,7 +167,7 @@
      leitura — cards do Desafio, fases do Método, entregáveis e diferenciais.
      ====================================================================== */
   var edgeItems = document.querySelectorAll(
-    '.edge-item, .pain-card, .phase, .asset-card, .witness--text, .witness__player'
+    '.edge-item, .pain-card, .phase, .asset-card, .witness--text, .witness__player, .step'
   );
   var edgeTouch = window.matchMedia('(max-width: 980px)');
 
@@ -242,7 +244,54 @@
 
 
   /* ======================================================================
-     06. TROCA DE LOGO NA SEÇÃO SOBRE
+     06. ENTRADA POR ROLAGEM — blocos [data-enter]
+     A animação .reveal só dispara no primeiro paint, então não serve para
+     o fim da página: quando a pessoa chega lá, ela já aconteceu. Estes
+     blocos entram quando cruzam a tela, uma única vez (unobserve).
+     ====================================================================== */
+  var enterBlocks = document.querySelectorAll('[data-enter]');
+
+  if (enterBlocks.length && 'IntersectionObserver' in window) {
+    /* Só agora o CSS passa a esconder os blocos: até esta linha eles estão
+       visíveis, então uma falha antes daqui nunca deixa a seção em branco. */
+    document.documentElement.classList.add('js-enter');
+
+    var enterObserver = new IntersectionObserver(function (entries, obs) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add('is-in');
+          obs.unobserve(entries[i].target);   // entra uma vez só
+        }
+      }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
+
+    for (var b = 0; b < enterBlocks.length; b++) {
+      enterObserver.observe(enterBlocks[b]);
+    }
+
+    /* Rede de segurança: se em 3s algum bloco ainda não entrou (observer
+       que não disparou, aba em segundo plano no carregamento), ele aparece
+       assim mesmo. Um efeito perdido é aceitável; conteúdo oculto não. */
+    window.setTimeout(function () {
+      for (var t = 0; t < enterBlocks.length; t++) {
+        enterBlocks[t].classList.add('is-in');
+      }
+    }, 3000);
+  }
+
+
+  /* ======================================================================
+     07. ANO DO RODAPÉ
+     Evita que o aviso de direitos envelheça sozinho na virada do ano.
+     ====================================================================== */
+  var anos = document.querySelectorAll('[data-ano]');
+  for (var a = 0; a < anos.length; a++) {
+    anos[a].textContent = String(new Date().getFullYear());
+  }
+
+
+  /* ======================================================================
+     08. TROCA DE LOGO NA SEÇÃO SOBRE
      Ao entrar em #sobre o header exibe a marca da consultora; ao sair,
      volta à pérola do FloreSer. A troca é instantânea (visibility), e os
      dois lockups já estão no HTML — não há requisição no momento da troca.
@@ -264,7 +313,7 @@
 
 
   /* ======================================================================
-     07. ESTADO DO HEADER AO ROLAR
+     09. ESTADO DO HEADER AO ROLAR
      Fundo sólido + fio dourado depois do topo da página. A cor do fundo
      acompanha a seção que está sob o header: as seções alternam entre
      #3E0033 e #1D102E, e um fundo fixo viraria uma faixa destoante em
@@ -310,7 +359,7 @@
 
 
   /* ======================================================================
-     08. SCROLL SUAVE E NAVEGAÇÃO
+     10. SCROLL SUAVE E NAVEGAÇÃO
      ====================================================================== */
   var supportsSmooth = 'scrollBehavior' in document.documentElement.style;
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

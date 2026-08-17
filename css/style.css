@@ -1553,6 +1553,18 @@ body.is-ready .reveal {
   color: var(--ivory-soft);
 }
 
+/* --- Frase de fechamento da seção --- */
+.witnesses__closing {
+  max-width: 720px;
+  margin: 3.5rem auto 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--off-white);
+}
+
 /* ==========================================================================
    16. RESPONSIVO
    ========================================================================== */
@@ -1775,6 +1787,14 @@ body.is-ready .reveal {
     border-color: rgba(210, 179, 106, 0.4);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
+  /* Sem a quebra fixa do desktop, a virada dourada cairia no meio de uma
+     linha. Como bloco, ela recomeça sozinha; `balance` evita que a primeira
+     frase termine numa linha órfã de uma palavra. */
+  .witnesses__closing {
+    margin-top: 2.5rem;
+    text-wrap: balance;
+  }
+  .witnesses__closing .gold-word { display: block; }
 
   /* --- Seção 04: O que você leva --- */
   .deliverables { padding: 4.5rem 1.5rem; }

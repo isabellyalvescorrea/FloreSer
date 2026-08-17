@@ -825,9 +825,98 @@
       </div>
     </section>
 
-    <!-- 07. DEPOIMENTOS -->
-    <section id="depoimentos" class="section section-placeholder" aria-label="Depoimentos">
-      <span class="section-placeholder__label">Depoimentos</span>
+    <!-- ==========================================================
+         07. DEPOIMENTOS — quem já viveu o método
+    =========================================================== -->
+    <section id="depoimentos" class="section witnesses" aria-labelledby="depoimentos-titulo">
+      <div class="witnesses__inner">
+
+        <header class="section-head">
+          <p class="section-head__tagline">Quem já viveu</p>
+          <h2 class="section-head__title" id="depoimentos-titulo">
+            Elas contam o que <span class="highlight-word">mudou.</span>
+          </h2>
+        </header>
+
+        <!-- ---------- Depoimentos em vídeo ---------- -->
+        <ul class="witness-grid witness-grid--video">
+
+          <li class="witness witness--video">
+            <!-- O vídeo só é baixado quando a pessoa toca em reproduzir: até
+                 lá existe apenas este cartão, sem nenhum byte de mídia. -->
+            <div class="witness__player" data-video="assets/videos/depoimento-paula-cunha.mp4">
+              <button class="witness__play" type="button"
+                      aria-label="Reproduzir o depoimento em vídeo de Paula Cunha">
+                <span class="witness__play-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M9 6.5 18 12l-9 5.5V6.5Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="witness__play-label">Assistir</span>
+              </button>
+            </div>
+            <p class="witness__author">
+              <span class="witness__name">Paula Cunha</span>
+              <span class="witness__role">Advogada</span>
+            </p>
+          </li>
+
+          <li class="witness witness--video">
+            <div class="witness__player" data-video="assets/videos/depoimento-daihana-teixeira.mp4">
+              <button class="witness__play" type="button"
+                      aria-label="Reproduzir o depoimento em vídeo de Daihana Teixeira">
+                <span class="witness__play-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M9 6.5 18 12l-9 5.5V6.5Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="witness__play-label">Assistir</span>
+              </button>
+            </div>
+            <p class="witness__author">
+              <span class="witness__name">Daihana Teixeira</span>
+              <span class="witness__role">Nutricionista</span>
+            </p>
+          </li>
+
+        </ul>
+
+        <!-- ---------- Depoimentos escritos ---------- -->
+        <ul class="witness-grid witness-grid--text">
+
+          <li class="witness witness--text">
+            <blockquote class="witness__quote">
+              Depois da consultoria a minha autoconfiança e o meu amor próprio
+              afloraram muito. Despertou em mim a vontade de me vestir, de me
+              amar mais, de buscar conhecimento de quem eu sou e de onde posso
+              melhorar. Obrigada por essa linda missão de levar a mulher a se
+              encontrar com ela mesma. Tudo vale a pena quando se tem amor por
+              si mesmo.
+            </blockquote>
+            <p class="witness__author">
+              <span class="witness__name">Aluna FloreSer</span>
+              <span class="witness__role">Depoimento por mensagem</span>
+            </p>
+          </li>
+
+          <li class="witness witness--text">
+            <blockquote class="witness__quote">
+              Quando eu te procurei foi para alinhar a minha personalidade com
+              as minhas roupas. Encontrar o meu estilo foi maravilhoso: saber o
+              que usar que me deixa mais bem vestida, elegante e alegre não tem
+              preço. A análise de coloração é um show à parte — a sensação de
+              controle do que eu quero transmitir na vida. Adoro o seu foco no
+              estilo olhando para a essência da mulher.
+            </blockquote>
+            <p class="witness__author">
+              <span class="witness__name">Celina</span>
+              <span class="witness__role">Aluna FloreSer</span>
+            </p>
+          </li>
+
+        </ul>
+
+      </div>
     </section>
 
     <!-- 08. SEU PRÓXIMO PASSO -->

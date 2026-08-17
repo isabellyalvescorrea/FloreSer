@@ -6,9 +6,10 @@
    02. Menu mobile (abrir / fechar / acessibilidade)
    03. Destaque do link da seção ativa
    04. Diferenciais — realce que acompanha a rolagem
-   05. Troca de logo na seção Sobre
-   06. Estado do header ao rolar a página
-   07. Scroll suave e navegação
+   05. Depoimentos em vídeo — carregamento sob demanda
+   06. Troca de logo na seção Sobre
+   07. Estado do header ao rolar a página
+   08. Scroll suave e navegação
    ========================================================================== */
 
 (function () {
@@ -164,7 +165,7 @@
      leitura — cards do Desafio, fases do Método, entregáveis e diferenciais.
      ====================================================================== */
   var edgeItems = document.querySelectorAll(
-    '.edge-item, .pain-card, .phase, .asset-card'
+    '.edge-item, .pain-card, .phase, .asset-card, .witness--text, .witness__player'
   );
   var edgeTouch = window.matchMedia('(max-width: 980px)');
 
@@ -215,7 +216,33 @@
 
 
   /* ======================================================================
-     05. TROCA DE LOGO NA SEÇÃO SOBRE
+     05. DEPOIMENTOS EM VÍDEO — carregamento sob demanda
+     Os dois arquivos somam 7,6 MB. Enquanto ninguém toca em "Assistir",
+     nenhum byte é baixado: o <video> só é criado no clique.
+     ====================================================================== */
+  var players = document.querySelectorAll('.witness__player');
+
+  for (var v = 0; v < players.length; v++) {
+    players[v].addEventListener('click', function () {
+      var src = this.getAttribute('data-video');
+      if (!src || this.querySelector('video')) { return; }
+
+      var video = document.createElement('video');
+      video.className = 'witness__video';
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;   // no iPhone, evita abrir em tela cheia
+      video.preload = 'auto';
+
+      this.innerHTML = '';
+      this.appendChild(video);
+    });
+  }
+
+
+  /* ======================================================================
+     06. TROCA DE LOGO NA SEÇÃO SOBRE
      Ao entrar em #sobre o header exibe a marca da consultora; ao sair,
      volta à pérola do FloreSer. A troca é instantânea (visibility), e os
      dois lockups já estão no HTML — não há requisição no momento da troca.
@@ -237,7 +264,7 @@
 
 
   /* ======================================================================
-     06. ESTADO DO HEADER AO ROLAR
+     07. ESTADO DO HEADER AO ROLAR
      Fundo sólido + fio dourado depois do topo da página. A cor do fundo
      acompanha a seção que está sob o header: as seções alternam entre
      #3E0033 e #1D102E, e um fundo fixo viraria uma faixa destoante em
@@ -283,7 +310,7 @@
 
 
   /* ======================================================================
-     07. SCROLL SUAVE E NAVEGAÇÃO
+     08. SCROLL SUAVE E NAVEGAÇÃO
      ====================================================================== */
   var supportsSmooth = 'scrollBehavior' in document.documentElement.style;
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

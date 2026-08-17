@@ -1392,7 +1392,169 @@ body.is-ready .reveal {
 }
 
 /* ==========================================================================
-   15. RESPONSIVO
+   15. SEÇÃO 07 — DEPOIMENTOS
+   ========================================================================== */
+.witnesses {
+  padding: 7rem 2rem;
+  background-color: var(--plum-dark);
+  color: var(--off-white);
+}
+
+.witnesses__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.witness-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.witness-grid--video { max-width: 760px; margin-inline: auto; }
+.witness-grid--text  { margin-top: 2.5rem; }
+
+/* --- Depoimento em vídeo --- */
+.witness--video { text-align: center; }
+
+/* Moldura do vídeo: proporção 9:16 reservada desde o início, para a página
+   não pular quando o vídeo entra. */
+.witness__player {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background-color: var(--plum-deepest);
+  border: 1.5px solid rgba(210, 179, 106, 0.4);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.witness__player:hover,
+.witness__player.is-active {
+  border-color: var(--gold);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.55),
+              0 0 22px rgba(210, 179, 106, 0.2);
+}
+
+/* Cartão de espera: enquanto ele está aqui, nenhum byte de vídeo foi baixado */
+.witness__play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  color: var(--gold);
+  cursor: pointer;
+}
+
+.witness__play-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(210, 179, 106, 0.18) 0%, rgba(30, 10, 46, 0.5) 100%);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.witness__play-icon svg { width: 30px; height: 30px; margin-left: 4px; }
+
+.witness__play:hover .witness__play-icon,
+.witness__player.is-active .witness__play-icon {
+  transform: scale(1.08);
+  box-shadow: 0 0 24px rgba(210, 179, 106, 0.4);
+}
+
+.witness__play-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+/* O <video> entra ocupando a moldura inteira, no lugar do cartão */
+.witness__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #000;
+}
+
+/* --- Depoimento escrito --- */
+.witness--text {
+  display: flex;
+  flex-direction: column;
+  padding: 2.4rem 2.2rem;
+  background: linear-gradient(145deg, #2A0824 0%, #1D102E 100%);
+  border: 1.5px solid rgba(210, 179, 106, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.witness--text:hover,
+.witness--text.is-active {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: 0 14px 32px -10px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(210, 179, 106, 0.18);
+}
+
+.witness__quote {
+  position: relative;
+  margin: 0 0 1.6rem;
+  padding-top: 2.2rem;
+  font-family: var(--font-title);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--ivory-soft);
+}
+/* Aspas de abertura como ornamento */
+.witness__quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.35em;
+  left: -0.06em;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.55;
+}
+
+/* --- Assinatura (comum aos dois formatos) --- */
+.witness__author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: auto;
+  padding-top: 0.2rem;
+}
+.witness--video .witness__author { margin-top: 1.2rem; }
+
+.witness__name {
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+.witness__role {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ivory-soft);
+}
+
+/* ==========================================================================
+   16. RESPONSIVO
    ========================================================================== */
 
 /* --- Telas baixas no desktop: comprime o suficiente para caber em 100vh --- */
@@ -1593,6 +1755,26 @@ body.is-ready .reveal {
   .phase__badge { padding: 0.6rem 1rem; }
   .phase__ornament { width: 95%; margin: 1.2rem auto 1.4rem; }
   .phase__rule { max-width: 240px; margin-top: 0.9rem; }
+
+  /* --- Seção 07: Depoimentos --- */
+  .witnesses { padding: 4.5rem 1.5rem; }
+  .witness-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  /* O vídeo é vertical: sozinho na largura da tela ficaria alto demais,
+     então limito a moldura e centralizo. */
+  .witness__player { max-width: 280px; margin-inline: auto; }
+  .witness--text { padding: 2rem 1.5rem; border-radius: 16px; }
+  .witness--text:hover {
+    transform: none;                 /* sem hover preso em telas de toque */
+    border-color: rgba(210, 179, 106, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  }
+  .witness__player:hover {
+    border-color: rgba(210, 179, 106, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
 
   /* --- Seção 04: O que você leva --- */
   .deliverables { padding: 4.5rem 1.5rem; }

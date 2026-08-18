@@ -150,8 +150,12 @@
             Sua imagem precisa comunicar isso antes mesmo de você começar a falar.
           </p>
 
+          <!-- Os dois CTAs da página (aqui e em #proximo-passo) abrem a mesma
+               conversa no WhatsApp, com a mensagem já escrita. -->
           <div class="hero__actions reveal" style="--d:360ms">
-            <a class="btn btn--primary" href="#proximo-passo">
+            <a class="btn btn--primary"
+               href="https://wa.me/5532988710593?text=Ol%C3%A1%2C%20gostaria%20de%20me%20aprofundar%20melhor%20no%20m%C3%A9todo%20FloreSer"
+               target="_blank" rel="noopener">
               <span class="btn__label">Quero viver o FloreSer</span>
               <span class="btn__arrow" aria-hidden="true">
                 <svg viewBox="0 0 32 12" fill="none">
@@ -1003,12 +1007,10 @@
         <!-- ---------- Conversão ---------- -->
         <div class="closing__actions" data-enter>
 
-          <!-- ATENÇÃO: destino do botão.
-               Hoje aponta para a caixa de mensagens do Instagram, que é o
-               canal confirmado da marca. Para trocar por WhatsApp, basta
-               substituir o href por:
-               https://wa.me/55DDDNUMERO?text=Ol%C3%A1%2C%20Fernanda!%20Quero%20saber%20mais%20sobre%20o%20FloreSer. -->
-          <a class="btn btn--final" href="https://ig.me/m/fernandadelizia.estilo"
+          <!-- WhatsApp (32) 9 8871-0593 com a mensagem já preenchida. O texto
+               vai codificado porque leva acento e vírgula. -->
+          <a class="btn btn--final"
+             href="https://wa.me/5532988710593?text=Ol%C3%A1%2C%20gostaria%20de%20me%20aprofundar%20melhor%20no%20m%C3%A9todo%20FloreSer"
              target="_blank" rel="noopener">
             <span class="btn__label">Quero agendar minha conversa</span>
             <span class="btn__arrow" aria-hidden="true">
@@ -1059,17 +1061,32 @@
         <p class="footer__tagline">Imagem &amp; Posicionamento Estratégico</p>
       </div>
 
-      <a class="footer__social" href="https://instagram.com/fernandadelizia.estilo"
-         target="_blank" rel="noopener"
-         aria-label="Instagram de Fernanda Delizia — abre em nova aba">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.2"/>
-          <circle cx="12" cy="12" r="4.1"/>
-          <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
-        </svg>
-        <span>@fernandadelizia.estilo</span>
-      </a>
+      <div class="footer__socials">
+
+        <a class="footer__social" href="https://instagram.com/fernandadelizia.estilo"
+           target="_blank" rel="noopener"
+           aria-label="Instagram de Fernanda Delizia — abre em nova aba">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.2"/>
+            <circle cx="12" cy="12" r="4.1"/>
+            <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>@fernandadelizia.estilo</span>
+        </a>
+
+        <a class="footer__social" href="https://youtube.com/@fernandadelizia"
+           target="_blank" rel="noopener"
+           aria-label="YouTube de Fernanda Delizia — abre em nova aba">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="1.9" y="5.1" width="20.2" height="13.8" rx="4.4"/>
+            <path d="M10.1 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>@fernandadelizia</span>
+        </a>
+
+      </div>
 
       <p class="footer__legal">
         &copy; <span data-ano>2026</span> FloreSer &middot; Fernanda Delizia.

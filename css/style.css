@@ -2006,7 +2006,16 @@ body.is-ready .reveal {
   color: var(--ivory-soft);
 }
 
-/* Único link do rodapé: alvo de toque cheio, sem virar botão */
+/* Os dois canais lado a lado; quebram sozinhos quando a linha aperta */
+.footer__socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Links dos canais: alvo de toque cheio, sem virar botão — o único botão
+   da página aqui embaixo é o CTA, logo acima. */
 .footer__social {
   display: inline-flex;
   align-items: center;

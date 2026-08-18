@@ -40,7 +40,9 @@
   --gold-line:   rgba(210, 179, 106, 0.30);
   --gold-soft:   rgba(210, 179, 106, 0.55);
   --ivory-soft:  rgba(247, 243, 236, 0.82);
-  --ivory-faint: rgba(247, 243, 236, 0.42);
+  /* Texto mais discreto da página. O piso é 0.70: abaixo disso o contraste
+     sobre o vinho cai de 7 e, em corpo pequeno, deixa de passar em AA. */
+  --ivory-faint: rgba(247, 243, 236, 0.70);
   --plum-deepest:#2B0025;  /* tom intermediário para separar as seções */
 
   /* --- Tipografia --- */
@@ -1943,12 +1945,30 @@ body.is-ready .reveal {
 /* ==========================================================================
    17. RODAPÉ
    ========================================================================== */
+/* Mesmo fundo do fechamento: a página termina em um bloco contínuo, e a
+   única divisão é o fio dourado. */
 .footer {
+  position: relative;
   padding: 3.2rem 2rem 2.4rem;
-  background-color: var(--plum-dark);
-  border-top: 1px solid var(--gold-line);
+  background-color: var(--plum-mid);
   color: var(--off-white);
   text-align: center;
+}
+
+/* Fio que esmaece nas duas pontas, como os do header e da hero. Sobre um
+   fundo contínuo, uma borda de ponta a ponta cortaria a página em dois;
+   assim ela apenas respira. */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, 82%);
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--gold-line) 22%, var(--gold-soft) 50%,
+    var(--gold-line) 78%, transparent 100%);
 }
 
 .footer__inner {

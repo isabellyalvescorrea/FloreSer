@@ -1665,6 +1665,16 @@ body.is-ready .reveal {
    decisão, e no meio do parágrafo ela se perderia. */
 .closing__title .gold-word { display: block; margin-top: 0.35em; }
 
+/* Linha decorativa da marca — a mesma dos títulos do Método e dos
+   Diferenciais, para o fechamento não inventar um ornamento próprio. */
+.closing__rule {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 1.9rem auto 0;
+}
+
 .closing__lead {
   max-width: 620px;
   margin: 1.8rem auto 0;
@@ -1677,6 +1687,7 @@ body.is-ready .reveal {
 
 /* --- As 3 etapas --- */
 .steps {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
@@ -1686,44 +1697,135 @@ body.is-ready .reveal {
   list-style: none;
 }
 
-.step {
-  position: relative;
-  padding: 2.2rem 1.6rem 1.9rem;
-  text-align: left;
-  background: linear-gradient(160deg, rgba(247, 243, 236, 0.055) 0%, rgba(247, 243, 236, 0.015) 100%);
-  border: 1px solid var(--gold-line);
-  border-radius: 16px;
-  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
-              box-shadow 0.35s var(--ease);
-}
-.step:hover,
-.step.is-active {
-  transform: translateY(-6px);
-  border-color: var(--gold);
-  box-shadow: 0 16px 34px -14px rgba(0, 0, 0, 0.6),
-              0 0 22px rgba(210, 179, 106, 0.18);
+/* Fio que atravessa os três cartões na altura dos numerais. Os cartões têm
+   fundo opaco e ficam por cima, então ele só aparece nos dois vãos — e é
+   isso que dá a leitura de 01 → 02 → 03 como um percurso.
+   O `top` acompanha o numeral (padding 2.6rem + metade dos 2.5rem da
+   fonte); é ornamento em um vão de 24px, uns pixels de folga não se veem. */
+.steps::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 62px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--gold-soft) 18%, var(--gold-soft) 82%, transparent 100%);
+  pointer-events: none;
 }
 
-/* O número é ornamento, não leitura: grande, translúcido, e só acende
-   quando o cartão está em foco. */
+.step {
+  position: relative;
+  z-index: 1;                       /* cobre o fio, deixando-o só nos vãos */
+  padding: 2.6rem 1.7rem 2rem;
+  text-align: left;
+  /* Vinho Ameixa metalizado: o #3E0033 do fundo com brilho na diagonal
+     superior e queda para a base, o mesmo tratamento das fases do Método. */
+  background: linear-gradient(150deg, #4C0A40 0%, #3A0230 55%, #2B0025 100%);
+  border-radius: 18px;
+  /* O fio de luz na aresta de cima é o que dá o acabamento metálico */
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.65),
+              inset 0 1px 1px rgba(210, 179, 106, 0.22);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+/* Borda dourada em degradê: mais viva no topo, apagando na base, como
+   metal pegando luz de cima. Feita com máscara para que só a moldura de
+   1px receba o degradê, e não o cartão inteiro. */
+.step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(160deg,
+    rgba(210, 179, 106, 0.85) 0%,
+    rgba(210, 179, 106, 0.30) 45%,
+    rgba(210, 179, 106, 0.14) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+/* Onde a máscara não existe, uma borda simples garante a moldura */
+@supports not (mask-composite: exclude) {
+  .step { border: 1px solid var(--gold-line); }
+  .step::before { display: none; }
+}
+
+/* Halo difuso no canto superior direito, revelado no foco */
+.step::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top right, rgba(210, 179, 106, 0.16), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+
+.step > * { position: relative; z-index: 1; }
+
+.step:hover,
+.step.is-active {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 40px -16px rgba(0, 0, 0, 0.72),
+              0 0 26px rgba(210, 179, 106, 0.2),
+              inset 0 1px 1px rgba(210, 179, 106, 0.4);
+}
+.step:hover::after,
+.step.is-active::after { opacity: 1; }
+
+/* --- Numeral --- */
+/* O número é ornamento, não leitura: grande, em folha de ouro, com um fio
+   que se estende a partir dele quando o cartão entra em foco. */
 .step__num {
-  display: block;
-  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
   font-family: var(--font-title);
-  font-size: 2.2rem;
+  font-size: 2.5rem;
+  font-weight: 500;
   line-height: 1;
-  color: var(--gold);
-  opacity: 0.45;
-  transition: opacity 0.35s var(--ease);
+  letter-spacing: 1px;
+  /* Degradê champanhe recortado no próprio numeral */
+  background: linear-gradient(140deg, #EBDCB4 0%, var(--gold) 48%, #B8944A 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  opacity: 0.55;
+  transition: opacity 0.4s var(--ease);
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .step__num { color: var(--gold); background: none; }
+}
+
+/* Fio que cresce do numeral para a direita — sugere o avanço de 01 a 03 */
+.step__num::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
 }
 .step:hover .step__num,
 .step.is-active .step__num { opacity: 1; }
+.step:hover .step__num::after,
+.step.is-active .step__num::after { transform: scaleX(1); }
 
 .step__title {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
   font-family: var(--font-title);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 500;
+  letter-spacing: 0.2px;
   color: var(--gold);
 }
 
@@ -1741,24 +1843,42 @@ body.is-ready .reveal {
 /* Botão final. Herda a cápsula de .btn e acrescenta o que só ele tem:
    preenchimento dourado permanente, halo pulsante e um brilho que
    atravessa o rótulo no hover. */
+/* O ouro em degradê é acabamento, não cor nova: são tons mais claro e mais
+   fechado do próprio #D2B36A, do mesmo jeito que as fases do Método
+   metalizam o ameixa. O bisel (luz no topo, sombra na base) é o que faz a
+   cápsula parecer metal em vez de um retângulo pintado. */
 .btn--final {
-  padding: 1.3rem 3.4rem;
+  padding: 1.35rem 3.6rem;
   font-size: clamp(0.85rem, 1vw, 0.98rem);
   font-weight: 700;
   letter-spacing: 2px;
   color: var(--plum-mid);
-  background-color: var(--gold);
-  border: 2px solid var(--gold);
-  box-shadow: 0 14px 40px -14px rgba(0, 0, 0, 0.7),
-              0 0 0 0 rgba(210, 179, 106, 0.45);
-  animation: btn-halo 3.2s var(--ease) infinite;
+  /* O extremo escuro para em #C8A75C, e não mais fundo: abaixo disso o
+     texto ameixa sobre ele cai de 7,3 para menos de 7 de contraste, e o
+     resto da página inteira se sustenta acima de 7. */
+  background: linear-gradient(140deg, #EBDCB4 0%, var(--gold) 42%, #C8A75C 100%);
+  border: none;
+  box-shadow: 0 16px 38px -14px rgba(0, 0, 0, 0.72),
+              0 0 22px rgba(210, 179, 106, 0.22),
+              inset 0 1px 0 rgba(255, 255, 255, 0.55),
+              inset 0 -1px 0 rgba(90, 0, 52, 0.22);
+  /* Anel externo que respira devagar. Substitui o halo em box-shadow: por
+     ser um contorno fino, e não uma sombra difusa, ele chama sem parecer
+     barato. Precisa ser `outline` e não um ::before — .btn tem
+     overflow:hidden para recortar o brilho, e isso engoliria qualquer
+     elemento fora da cápsula. Outline escapa do recorte e acompanha o
+     border-radius. O anel de foco do teclado (2px, `a:focus-visible`) tem
+     especificidade maior e continua se sobrepondo a este. */
+  outline: 1px solid rgba(210, 179, 106, 0.45);
+  outline-offset: 6px;
+  animation: btn-ring 4.5s var(--ease) infinite;
+  transition: transform var(--t-med), box-shadow var(--t-med),
+              outline-offset var(--t-med), outline-color var(--t-med);
 }
 
-/* Halo que se expande e some, como uma onda saindo do botão */
-@keyframes btn-halo {
-  0%   { box-shadow: 0 14px 40px -14px rgba(0,0,0,0.7), 0 0 0 0    rgba(210, 179, 106, 0.45); }
-  70%  { box-shadow: 0 14px 40px -14px rgba(0,0,0,0.7), 0 0 0 18px rgba(210, 179, 106, 0); }
-  100% { box-shadow: 0 14px 40px -14px rgba(0,0,0,0.7), 0 0 0 0    rgba(210, 179, 106, 0); }
+@keyframes btn-ring {
+  0%, 100% { outline-offset: 5px;  outline-color: rgba(210, 179, 106, 0.22); }
+  50%      { outline-offset: 11px; outline-color: rgba(210, 179, 106, 0.55); }
 }
 
 /* Faixa de brilho que cruza o botão no hover */
@@ -1767,21 +1887,30 @@ body.is-ready .reveal {
   position: absolute;
   inset: 0 auto 0 0;
   width: 45%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.6), transparent);
   transform: translateX(-160%) skewX(-18deg);
   transition: transform 0.75s var(--ease);
   pointer-events: none;
 }
+
+/* No hover o anel para de pulsar e assenta aberto: o movimento passa a ser
+   do brilho, e dois ao mesmo tempo ficariam ruidosos. */
 .btn--final:hover,
 .btn--final:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 18px 46px -12px rgba(0, 0, 0, 0.75),
-              0 0 34px rgba(210, 179, 106, 0.55);
-  animation: none;                  /* o halo cede lugar ao brilho */
+  box-shadow: 0 22px 46px -12px rgba(0, 0, 0, 0.78),
+              0 0 38px rgba(210, 179, 106, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7),
+              inset 0 -1px 0 rgba(90, 0, 52, 0.22);
+  animation: none;
+  outline-offset: 10px;
+  outline-color: var(--gold);
 }
 .btn--final:hover::after,
 .btn--final:focus-visible::after { transform: translateX(330%) skewX(-18deg); }
 .btn--final:active { transform: translateY(-1px); }
+.btn--final .btn__arrow { transition: transform var(--t-med); }
+.btn--final:hover .btn__arrow { transform: translateX(6px); }
 
 /* --- Microcopy de segurança --- */
 .assurances {
@@ -1918,7 +2047,7 @@ body.is-ready .reveal {
   .js-enter [data-enter],
   .js-enter [data-enter] .step { opacity: 1; transform: none; }
   .closing__aura,
-  .btn--final { animation: none; }
+  .btn--final::before { animation: none; }
 }
 
 
@@ -2352,8 +2481,14 @@ body.is-ready .reveal {
     margin-top: 2.6rem;
     max-width: 460px;
   }
-  .step      { padding: 1.7rem 1.4rem 1.5rem; }
-  .step__num { font-size: 1.85rem; margin-bottom: 0.5rem; }
+  /* O fio que liga os cartões só faz sentido lado a lado. Empilhados, a
+     própria ordem de leitura já entrega a sequência. */
+  .steps::before { display: none; }
+
+  .step      { padding: 1.9rem 1.5rem 1.6rem; }
+  .step__num { font-size: 2.1rem; margin-bottom: 0.8rem; }
+
+  .closing__rule { max-width: 210px; margin-top: 1.4rem; }
 
   .closing__actions { margin-top: 2.8rem; }
 

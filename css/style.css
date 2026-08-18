@@ -76,6 +76,13 @@
 *::after { box-sizing: border-box; }
 
 html {
+  /* Avisa o navegador que a página é escura: sem isso ele desenha a barra
+     de rolagem no esquema claro, e ela vira uma faixa cinza contra o vinho
+     — foi o que apareceu como se fosse estouro lateral. */
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(210, 179, 106, 0.38) var(--plum-mid);
+
   /* Scroll suave entre as âncoras do menu */
   scroll-behavior: smooth;
   /* Impede que o header fixo cubra o topo da seção alvo (+ respiro) */
@@ -100,6 +107,16 @@ body {
 
 /* Trava o scroll do body enquanto o menu mobile está aberto */
 body.is-locked { overflow: hidden; }
+
+/* Mesma barra para os navegadores WebKit antigos, que ignoram
+   scrollbar-color. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--plum-mid); }
+::-webkit-scrollbar-thumb {
+  background: rgba(210, 179, 106, 0.38);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold-soft); }
 
 h1, h2, h3, p, ul, figure { margin: 0; }
 ul { padding: 0; list-style: none; }
@@ -1630,27 +1647,16 @@ body.is-ready .reveal {
 }
 
 /* --- Cabeçalho --- */
+/* Sem o traço que as outras seções têm sob o kicker: aqui a linha
+   decorativa logo abaixo do título já cumpre esse papel, e as duas juntas
+   deixavam dois fios dourados a poucos pixels um do outro. */
 .closing__tagline {
-  position: relative;
   margin-bottom: 1.6rem;
-  padding-bottom: 1rem;
   font-size: clamp(0.7rem, 0.78vw, 0.75rem);
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--gold);
-}
-.closing__tagline::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 90px;
-  height: 1.5px;
-  background: linear-gradient(90deg,
-    rgba(210, 179, 106, 0.15) 0%, var(--gold) 50%,
-    rgba(210, 179, 106, 0.15) 100%);
 }
 
 .closing__title {
